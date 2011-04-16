@@ -1,0 +1,23 @@
+[
+    {
+        "model": "competition.Competition",
+        "pk": 1,
+        "fields": {
+            "title": "Olimpiada de Programacion",
+            "description": "Test competition"
+        }
+    },
+    {
+        "model": "competition.HumanJudge",
+        "pk": 2,
+        "fields": {
+            "is_staff": false,
+            "is_superuser": false,
+            "first_name": "Juancho",
+            "last_name": "Pancho",
+            "username": "juancho",
+            "password": "pancho",
+            "competition": 1
+        }
+    }
+]
