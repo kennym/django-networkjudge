@@ -10,12 +10,6 @@ A competition must have a duration greater than zero.
 While a competition is running solutions can be uploaded, not before and not after the competition's duration.
 After a competition has finished no more solutions are allowed for submission.
 
-A competition has the following states:
-    - Not started
-    - In progress
-    - Ended, but evaluation in progress
-    - Ended, evaluation ended.
-    - Ended, manually stopped.
 
 == Administrator ==
 
@@ -75,19 +69,4 @@ A solution needs to have a blob to be evaluated.
 
 == Evaluation and Punctuation ==
 
->>> Evaluation consists in compiling the problem and see if it returns the correct result.
->>> Punctuation is the value of a solution
 
-When a solution has been submitted evaluation starts.
-Submitting a solution that compiles: 5 points
-Submitting a solution that returns the correct result: 10 points
-Bonus for submitting all solutions to all problems
-    First : 3 points
-    Second: 2 points
-    Third : 1 point
-
-== Jugde ==
-
-The judge evaluates:
-    - Code quality
-    - 
