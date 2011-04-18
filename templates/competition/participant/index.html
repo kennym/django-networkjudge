@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Participant - {{ participant }}{% endblock %}
+
+{% block header %}
+    <h1>{{ competition }} - {{ team }} - {{ participant }}</h1>
+{% endblock %}
+
+{% block main-content %}
+    <div id="status-box">
+
+    {%  if competition.status == '0' %}
+        <h2>
+            Competition has not started yet
+        </h2>
+    {% endif %}
+    {%  if competition.status == '1' %}
+        <h2>
+            Competition is running.
+        </h2>
+    {% endif %}
+    {%  if competition.status == '2' %}
+        <h2>
+            In evaluation. No more submission allowed.
+        </h2>
+    {% endif %}
+    {%  if competition.status == '3' %}
+        <h2>
+            Competition has ended.
+        </h2>
+    {% endif %}
+    </div>
+
+    <div id="accordion" class="ui-accordion ui-widget ui-helper-reset">
+        <h3>
+            <a name="#tab1">
+                Control panel
+            </a>
+        </h3>
+        <div>
+            <h1>Problem set:</h1>
+            {% if problems %}
+                {% for problem in problems %}
+                    <div class="problem-box">
+                        <h2>{{ forloop.counter }}. {{ problem.title }}</h2>
+                        <p>
+                            {{ problem.description }}
+                        </p>
+                        <form action="{% url participant-upload-solution participant.id problem.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                            {% for field in form %}
+                                <div class="fieldWrapper">
+                                    {{ field.label_tag }}: {{ field }}
+                                    {{ field.errors }}
+                                </div>
+                            {% endfor %}
+                            <input type="submit" value="Send solution" />
+                        </form>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <h2>There are no problems</h2>
+            {% endif %}
+
+        </div>
+
+        <h3>
+            <a name="#tab2">
+                Resumen
+            </a>
+        </h3>
+        <div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('#accordion').accordion();
+    });
+    </script>
+{% endblock %}

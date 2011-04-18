@@ -120,14 +120,19 @@ class Team(models.Model):
     """Team Model"""
     name = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.name
+
 
 class Participant(User):
     """
     Participant model
-
     """
     competition = models.ForeignKey(Competition)
-    team = models.ForeignKey(Team)
+    team = models.OneToOneField(Team)
+
+    def __unicode__(self):
+        return self.first_name + " " + self.last_name
 
 
 class Problem(models.Model):
@@ -135,19 +140,25 @@ class Problem(models.Model):
     Problem model
 
     """
-    competition = models.ManyToManyField(Competition)
+    competition = models.ManyToManyField(Competition, null=False, blank=False)
 
     title = models.CharField(max_length=255)
     description = models.TextField()
+
+    def __unicode__(self):
+        return "Problem(" + self.title + ")"
 
 
 class Solution(models.Model):
     """
     Solution model
     """
-    participant = models.ForeignKey(Participant)
-    problem = models.ForeignKey(Problem)
+    participant = models.OneToOneField(Participant)
+    problem = models.OneToOneField(Problem)
 
     file = models.FileField(upload_to='solutions')
 
     submissionDate = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "Solution(Participant: " + str(self.participant) + ", " + str(self.problem) + ")"

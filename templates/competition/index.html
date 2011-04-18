@@ -2,18 +2,10 @@
 
 {% block title %}Index{% endblock %}
 
-{% block main-content %}
-    <header class="container_12"_>
+{% block header %}
     {% if user.is_authenticated %}
-        <p>Welcome {{ user }}</p>
+        <p>Welcome {{ user.username }}. </p>
     {% else %}
-        <div id="login-form">
-            <h2>Login</h2>
-            <form action="/" method="post">{% csrf_token %}
-                {{ loginform.as_p }}
-            <input type="submit" value="Submit" />
-            </form>
-        </div>
+        <p>Hello, anonymous</p>
     {% endif %}
-    </header>
 {% endblock %}

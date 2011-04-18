@@ -1,0 +1,9 @@
+#status-box {
+    border: 1px black solid;
+    padding: 20px;
+    text-align: center;
+}
+
+.problem-box {
+    border-bottom: 1px solid black;
+}
