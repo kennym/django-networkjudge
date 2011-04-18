@@ -48,12 +48,10 @@
                         </p>
                         <form action="{% url participant-upload-solution participant.id problem.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                             {% for field in form %}
-                                <div class="fieldWrapper">
-                                    {{ field.label_tag }}: {{ field }}
-                                    {{ field.errors }}
-                                </div>
+                                {{ field.label_tag }}: {{ field }}
+                                {{ field.errors }}
                             {% endfor %}
-                            <input type="submit" value="Send solution" />
+                            <input type="submit" value="Submit solution" />
                         </form>
                     </div>
                 {% endfor %}
