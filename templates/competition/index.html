@@ -3,9 +3,30 @@
 {% block title %}Index{% endblock %}
 
 {% block header %}
-    {% if user.is_authenticated %}
-        <p>Welcome {{ user.username }}. </p>
-    {% else %}
-        <p>Hello, anonymous</p>
+    {% include "competition/main_menu.html" %}
+{% endblock %}
+
+{% block main-content %}
+    {% if participant %}
+        <p>Hello {{ participant.first_name }}! Your details:</p>
+        <ul>
+            <li>Competition: {{ participant.competition }}</li>
+            <li>Team: {{ participant.team }}</li>
+        </ul>
     {% endif %}
+
+    {# There will be only a competition list object if there is no user authenticated. #}
+    {% if competitions %}
+    <h1>Active competitions:</h1>
+    <ul>
+        {% for competition in competitions %}
+        <li>
+            <a href="{{ competition.get_absolute_url }}">
+                {{ competition.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
 {% endblock %}

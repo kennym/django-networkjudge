@@ -5,13 +5,9 @@ class CompetitionAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Competition, CompetitionAdmin)
 
-class HumanJudgeAdmin(admin.ModelAdmin):
+class JudgeAdmin(admin.ModelAdmin):
     pass
-admin.site.register(HumanJudge, HumanJudgeAdmin)
-
-class ComputerJudgeAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(ComputerJudge, ComputerJudgeAdmin)
+admin.site.register(Judge, JudgeAdmin)
 
 class OrganizerAdmin(admin.ModelAdmin):
     pass

@@ -1,0 +1,38 @@
+<header>
+    <nav id="main-menu">
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+                {% if user.participant %}
+                    <li>
+                        <a href="{{ competition.problems }}">
+                            Problems
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/participant/submissions">
+                            My Submissions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/competition/rankings">
+                            Rankings
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+            <li class="right">
+                {% if user.is_authenticated %}
+                    Welcome {{ user.username }}.
+                {% else %}
+                    <a href="/login">
+                        Login
+                    </a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+</header>
+

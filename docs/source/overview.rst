@@ -96,7 +96,7 @@ HumanEvaluation
 
 The evaluation object which is provided by a HumanJudge object.
 
-.. NOTE:: Only one HumanEvaluation can exist for one Solution.
+.. NOTE:: Only one HumanEvaluation per Judge can exist for a Solution.
 
 """"""""""""""""""
 ComputerEvaluation
@@ -104,9 +104,11 @@ ComputerEvaluation
 
 The evaluation object which is provided by the computer.
 
-.. NOTE:: Only one HumanEvaluation can exist for one Solution.
+.. NOTE:: Only one ComputerEvaluation can exist for a Solution.
 
---------
-Compiler
---------
+------------
+ExecutorTask
+------------
+
+The ExecutorTask is the asynchronous task which compiles 
 

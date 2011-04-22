@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User, UserManager
+from django.utils.translation import ugettext as _
 
 from datetime import datetime, timedelta
 
@@ -71,39 +72,21 @@ class Competition(models.Model):
             delta = self.endTime - datetime.now()
             return delta.total_seconds()
 
+    @models.permalink
+    def problems(self):
+        return ('competition.views.competition_problems', [str(self.id)])
+        
+
     def __unicode__(self):
         return self.title
 
 
-class Judge(models.Model):
+class Judge(User):
     """
     Judge model base class.
     """
     competition = models.ForeignKey(Competition)
     
-    class Meta:
-        abstract = True
-        
-
-class HumanJudge(Judge, User):
-    """
-    HumanJudge model.
-
-    A human judge can only belong to a single competition.
-
-    """
-    objects = UserManager()
-
-
-class ComputerJudge(Judge):
-    """
-    ComputerJudge model.
-
-    A computer judge (AI) can only belong to a single competition.
-
-    """
-    name = models.CharField(max_length="20")
-
 
 class Organizer(User):
     """
@@ -138,12 +121,18 @@ class Participant(User):
 class Problem(models.Model):
     """
     Problem model
-
     """
     competition = models.ManyToManyField(Competition, null=False, blank=False)
 
-    title = models.CharField(max_length=255)
-    description = models.TextField()
+    title = models.CharField(_('Title'), max_length=255, unique=True)
+    description = models.TextField(_('Description'))
+    input = models.TextField(_('Input'), null=True, blank=True)
+    output = models.TextField(_('Output'), null=True, blank=True)
+    sample_output = models.TextField(_('Sample Output'), null=True, blank=True)
+    sample_input = models.TextField(_('Sample Input'), null=True, blank=True)
+    sample_program = models.TextField(_('Sample Program'), null=True, blank=True)
+
+    creation_time = models.DateTimeField(_('Creation Time'))
 
     def __unicode__(self):
         return "Problem(" + self.title + ")"
@@ -151,14 +140,39 @@ class Problem(models.Model):
 
 class Solution(models.Model):
     """
-    Solution model
+    A solution is the submission of a participant to a problem.
     """
     participant = models.OneToOneField(Participant)
-    problem = models.OneToOneField(Problem)
+    problem = models.ForeignKey(Problem)
 
-    file = models.FileField(upload_to='solutions')
+    PROGRAMMING_LANGUAGES = {
+        ('A', _("Python 2.6")),
+        ('B', _("Java"))
+    }
+    RESULT_CHOICE = (
+        ('A',_('Accepted')),
+        ('C',_('Compile Error')),
+        ('E',_('System Error(FILE)')),
+        ('F',_('Restrict Function')),
+        ('J',_('Judging')),
+        ('M',_('Memory Limit Exceeded')),
+        ('O',_('Output Limit Exceeded')),
+        ('P',_('Presentation Error')),
+        ('R',_('Runtime Error')),
+        ('S',_('System Error(JUDGE)')),
+        ('T',_('Time Limit Exceeded')),
+        ('W',_('Wrong Answer')),
+        ('U',_('Compiling Time Exceeded')),
+        ('X',_('Compiling')),
+        ('Z',_('Waiting')),
+        #TODO:RUNTIME_ERROR(DIVIDED_BY_ZERO)
+    )
 
-    submissionDate = models.DateTimeField(auto_now_add=True)
+    result = models.CharField(_("Result"), choices=RESULT_CHOICE, max_length=1)
+    language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
+    source_code = models.TextField(_("Source code"))
+
+    submit_time = models.DateTimeField(_("Submit time"), auto_now_add=True)
 
     def __unicode__(self):
         return "Solution(Participant: " + str(self.participant) + ", " + str(self.problem) + ")"

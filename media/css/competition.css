@@ -1,9 +1,12 @@
-#status-box {
-    border: 1px black solid;
-    padding: 20px;
-    text-align: center;
+#main-menu {
 }
 
-.problem-box {
-    border-bottom: 1px solid black;
-}
+    #main-menu li {
+        display: inline;
+        list-style-type: none;
+        padding-right: 10px;
+    }
+
+    #main-menu .right {
+        float: right;
+    }

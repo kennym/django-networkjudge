@@ -1,7 +1,8 @@
 from django.utils import unittest
+from django.test.client import Client
 
 from competition.models import COMPETITION_STATUSES
-from competition.models import Competition
+from competition.models import Competition, Participant
 
 class CompetitionTestCase(unittest.TestCase):
     fixtures = ['test_data.json']
@@ -47,6 +48,9 @@ class CompetitionTestCase(unittest.TestCase):
 
         competition.reset()
         self.assertEquals(competition.status, COMPETITION_STATUSES[0][0])
-        self.assertEquals(competition.duration, None)
         self.assertEquals(competition.startTime, None)
         self.assertEquals(competition.endTime, None)
+
+class ParticipantTestCase(unittest.TestCase):
+    fixtures = ['test_data.json']
+

@@ -62,6 +62,8 @@ MEDIA_URL = ''
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = ''
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/media/'
@@ -104,6 +106,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'networkjudge.urls'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # Define where exactly Django should look for templates
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, "templates"),
@@ -145,3 +148,16 @@ LOGGING = {
         },
     }
 }
+
+if DEBUG == True:
+    MIDDLEWARE_CLASSES += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+
+    INTERNAL_IPS = ('127.0.0.1',)
+
+    INSTALLED_APPS += (
+        'debug_toolbar',
+    )
+
+

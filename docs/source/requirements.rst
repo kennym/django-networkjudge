@@ -11,7 +11,7 @@ Participants
 
     #. Authenticate themselves to the competition
     #. View problem sets (including expected outputs)
-    #. View contest information
+    #. View competition information
     #. View remaining time
     #. Submit source code solution for problem
 
@@ -52,7 +52,6 @@ Organizers
     #. Set duration of competition
     #. View remaining time
     #. Start/stop/reset competition
-    #. Select and vi
 
 ------
 System

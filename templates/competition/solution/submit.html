@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {% include "competition/main_menu.html" %}
+{% endblock %}
+
+{% block main-content %}
+    <h1>{{ problem.title }}</h1>
+    <h2>{{ problem.description }}</h2>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if solution %}
+        <p>Your solution:</p>
+        <p>{{ solution.source_code }}</p>
+    {% endif %}
+
+    {% if form %}
+        <form action="" method="POST">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    {% endif %}
+{% endblock %}

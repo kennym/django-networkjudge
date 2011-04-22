@@ -12,56 +12,75 @@ IDs).
 When a user logs in to the system, he directly is directed to his index
 according to his role.
 
-----------------
-Participant View
-----------------
+-----------
+Participant
+-----------
 
-After the students logs in, he will be redirected to his index.
+.. image:: ../mockups/participant.png
 
-^^^^^^^^^^^^^^^^^^^^^^^
-Competition information
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
+Competition status
+^^^^^^^^^^^^^^^^^^
 
-    The participant can see the competition information, like:
-        * Current status
-        * Remaining time
+.. image:: ../mockups/competition_information.png
 
-^^^^^^^^^^^^
-Problem view
-^^^^^^^^^^^^
+The participant can see the following competition information while in
+progress:
 
-    The participant sees a list of problems related to the current competition,
-    if it is in progress.
+    * Current status
+    * Remaining time
 
-^^^^^^^^^^^^^^^^^^^
-Solution submission
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Problem and Solution view
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    To each problem the participant is able to upload his solution to the
-    server via an upload form.
+.. image:: ../mockups/participant_problems_section.png
 
-^^^^^^^^^^^^^^^^^
-Standings/Ranking
-^^^^^^^^^^^^^^^^^
+The participant sees a list of problems related to the current competition, if
+it is in progress.
 
-    The participant is able to see the overall ranking/standings of all
-    participants and of himself highlighted.
+The submission results, after sending the solution, are the following:
+    * Correct submission.
+    * Compilation error
+    * Run-time error
+    * Time-limit exceeded.
+    * Wrong answer.
+    * Invalid file-type
 
-----------
-Judge View
-----------
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Pending Judge evaluations
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Show the pending judge evaluations for the solution.
+
+^^^^^^^
+Ranking
+^^^^^^^
+
+.. image:: ../mockups/ranking.png
+
+The participant is able to see the overall ranking/standings of all
+participants and of himself highlighted.
+
+-----
+Judge
+-----
 
 ^^^^^^^^^^^^^
 Solution List
 ^^^^^^^^^^^^^
 
-The judge is able to view a list of submitted solutions with the corresponding
-problem. He can immediately give his evaluation.
+The judge is able to view a list of submitted solutions which are correct with
+the corresponding problem. He is able to evaluate, or re-evaluate (if already
+judged), the solution.
 
-VIEW: TODO
+Submissions that require evaluation will always be highlighted and stay on the
+top of the list, while the remaining ones stay in their submission order.
 
 ^^^^^^^^^^^^^^^^
 Evaluation logic
 ^^^^^^^^^^^^^^^^
 
-When the `Evaluate` link is clicked, a new window appears first presenting the source code submitted by the participant, and the compilation result of the code.
+When the `Evaluate` link is clicked, a new dialog appears first presenting the
+source code submitted by the participant, a widget to rate the code quality and
+a comment box.

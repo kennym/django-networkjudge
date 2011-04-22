@@ -3,9 +3,15 @@ from competition import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^logout/$', views.logout_user, name='logout'),
+    # Competition
+    url(r'^competition/(\d+)/problems/$', views.competition_problems),
+    url(r'^competition/(\d+)/participant/(\d+)/$', views.participant_view, name='participant-view'),
 
-    # Participants
-    url(r'^participant/(\d+)/$', views.participant_view, name='participant-view'),
-    url(r'^participant/(\d+)/upload_solution_for/(\d+)/$', views.upload_solution, name="participant-upload-solution"),
+    # Problems
+    url(r'^competition/(\d+)/problem/(\d+)/submit/$', views.submit_solution, name="submit-solution"),
+
+    # Authentication
+    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'competition/login.html'}, name='login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'competition/index.html'}, name='logout'),
+
 )
