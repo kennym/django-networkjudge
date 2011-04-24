@@ -51,5 +51,22 @@
             "email": "",
             "date_joined": "2011-04-17 10:47:35"
         }
+    },
+    {
+        "pk": 1,
+        "model": "competition.problem",
+        "fields": {
+            "sample_output": "",
+            "description": "Returns the numbers from 1 to 10 line by line, using a for loop.",
+            "title": "Numbers 1 to 10",
+            "sample_input": "",
+            "creation_time": "2011-04-24 13:31:28",
+            "sample_program": "",
+            "competition": [
+                1
+            ],
+            "output": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10",
+            "input": ""
+        }
     }
 ]

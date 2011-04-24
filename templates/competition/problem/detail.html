@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {% include "competition/main_menu.html" %}
+{% endblock %}
+
+{% block main-content %}
+    <h2>{{ problem.title }}</h2>
+    <h3>{{ problem.description }}</h3>
+
+    {% if problem.sample_program %}
+        <p>{{ problem.sample_program }}</p>
+    {% endif %}
+
+    {% if problem.sample_input %}
+    <p>{{ problem.sample_input }}</p>
+    {% endif %}
+
+    {% if problem.sample_output %}
+        <p>{{ problem.sample_output }}</p>
+    {% endif %}
+
+    {% if user.participant.solution.problem == problem %}
+        You have already submitted a solution
+    {% else %}
+        <a href="{% url competition.views.submit_solution problem.id %}">Submit solution</a>
+    {% endif %}
+{% endblock %}

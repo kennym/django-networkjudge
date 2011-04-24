@@ -13,6 +13,7 @@ from django.shortcuts import (
 
 from competition.forms import UploadSolutionForm
 from competition.models import Participant, Solution, Problem, Competition
+from com_judge import ComJudge
 
 
 def index(request):
@@ -52,6 +53,15 @@ def competition_problems(request, id):
 
     return render_to_response("competition/problems.html", context, context_instance=RequestContext(request))
 
+@login_required
+def problem_detail(request, id):
+    problem = get_object_or_404(Problem, pk=id)
+    context = {
+        "problem": problem
+    }
+    return render_to_response("competition/problem/detail.html",
+                              context,
+                              context_instance=RequestContext(request))
 
 @login_required
 def participant_view(request, id, extra_context=None):
@@ -74,37 +84,55 @@ def participant_view(request, id, extra_context=None):
 
 
 @login_required
-def submit_solution(request, competition_id, problem_id):
+def submit_solution(request, problem_id):
     if request.method == "POST" and request.POST:
         form = UploadSolutionForm(request.POST)
         if form.is_valid():
             participant = get_object_or_404(Participant, pk=request.user.id)
+
             # Check if participant has already submitted a solution
             queryset = Solution.objects.filter(participant__exact=participant.id)
             if queryset.exists():
                 messages.add_message(request, messages.ERROR, _("You already submitted a solution."))
                 solution = queryset.all()[0]
-                return render_to_response("competition/solution/submit.html",
-                                          {'solution': solution},
-                                          context_instance=RequestContext(request))
             else:
-                problem = get_object_or_404(Problem, pk=problem_id)
 
                 solution = form.save(commit=False)
+                compiler = None
+                if solution.language == "A":
+                    compiler = "python"
+                elif solution.language == "B":
+                    compiler = "javac"
+
+                c = ComJudge(compiler, solution.source_code)
+                c.run()
+                status = c.get_status()
+
+                solution.result = status[0]
+                solution.error_message = status[2] or None
                 solution.participant = participant
+                problem = get_object_or_404(Problem, pk=problem_id)
                 solution.problem = problem
                 solution.save()
-                return render_to_response("competition/solution/submit.html",
-                                          {'solution': solution},
-                                          context_instance=RequestContext(request))
+            return render_to_response("competition/solution/submit.html",
+                                      {'solution': solution},
+                                      context_instance=RequestContext(request))
         return render_to_response("competition/solution/submit.html",
                                   {'form': form},
                                   context_instance=RequestContext(request))
     else:
+        problem = get_object_or_404(Problem, pk=problem_id)
+        participant = get_object_or_404(Participant, pk=request.user.id)
+        solution = None
+        # TODO: Use solutions instead of solution
+        for sol in participant.solution_set.all():
+            if sol.problem == problem:
+                solution = sol
         context = {
             "form": UploadSolutionForm(),
-            "competition": get_object_or_404(Competition, pk=competition_id),
-            "problem": get_object_or_404(Problem, pk=problem_id)
+            "competition": get_object_or_404(Competition, pk=participant.competition.id),
+            "problem": problem,
+            "solution": solution
         }
         return render_to_response("competition/solution/submit.html",
                                   context,

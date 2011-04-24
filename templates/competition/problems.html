@@ -10,9 +10,9 @@
     <ul>
         {% for problem in problems %}
         <li>
-            <h2>{{ problem.title }}</h2>
+            <h2><a href="{{ problem.get_absolute_url }}">{{ problem.title }}</a></h2>
             <p>{{ problem.description }}</p>
-            <a href="{% url competition.views.submit_solution competition.id problem.id %}">Submit solution</a>
+            <a href="{% url competition.views.submit_solution problem.id %}">Submit solution</a>
         </li>
         {% endfor %}
     </ul>

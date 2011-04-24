@@ -7,6 +7,11 @@ from django.utils.translation import ugettext as _
 from datetime import datetime, timedelta
 
 
+PROGRAMMING_LANGUAGES = (
+    ('A', _("Python 2.6")),
+    ('B', _("Java")),
+)
+
 COMPETITION_STATUSES = (
     ('0', 'Standby'),
     ('1', 'In Progress'),
@@ -126,13 +131,18 @@ class Problem(models.Model):
 
     title = models.CharField(_('Title'), max_length=255, unique=True)
     description = models.TextField(_('Description'))
-    input = models.TextField(_('Input'), null=True, blank=True)
-    output = models.TextField(_('Output'), null=True, blank=True)
-    sample_output = models.TextField(_('Sample Output'), null=True, blank=True)
+    input = models.TextField(_('Input'), blank=True, null=True)
+    output = models.TextField(_('Output'), blank=True, null=True)
+
     sample_input = models.TextField(_('Sample Input'), null=True, blank=True)
+    sample_output = models.TextField(_('Sample Output'), null=True, blank=True)
     sample_program = models.TextField(_('Sample Program'), null=True, blank=True)
 
     creation_time = models.DateTimeField(_('Creation Time'))
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('competition.views.problem_detail', [str(self.id)])
 
     def __unicode__(self):
         return "Problem(" + self.title + ")"
@@ -142,33 +152,24 @@ class Solution(models.Model):
     """
     A solution is the submission of a participant to a problem.
     """
-    participant = models.OneToOneField(Participant)
+    participant = models.ForeignKey(Participant)
     problem = models.ForeignKey(Problem)
 
-    PROGRAMMING_LANGUAGES = {
-        ('A', _("Python 2.6")),
-        ('B', _("Java"))
-    }
     RESULT_CHOICE = (
-        ('A',_('Accepted')),
-        ('C',_('Compile Error')),
-        ('E',_('System Error(FILE)')),
-        ('F',_('Restrict Function')),
-        ('J',_('Judging')),
-        ('M',_('Memory Limit Exceeded')),
-        ('O',_('Output Limit Exceeded')),
-        ('P',_('Presentation Error')),
-        ('R',_('Runtime Error')),
-        ('S',_('System Error(JUDGE)')),
-        ('T',_('Time Limit Exceeded')),
-        ('W',_('Wrong Answer')),
-        ('U',_('Compiling Time Exceeded')),
-        ('X',_('Compiling')),
-        ('Z',_('Waiting')),
-        #TODO:RUNTIME_ERROR(DIVIDED_BY_ZERO)
+        ('0',_('Compile successful')),
+        ('1',_('Compile Error')),
     )
 
-    result = models.CharField(_("Result"), choices=RESULT_CHOICE, max_length=1)
+    JUDGE_RESULT = (
+        ('0', _('Pending')),
+        ('1', _('Solution correct')),
+        ('2', _('Solution incorrect'))
+    )
+
+    judge_result = models.CharField(_("Judge Result"), choices=RESULT_CHOICE, max_length=1)
+
+    computer_result = models.CharField(_("Computer Result"), choices=RESULT_CHOICE, max_length=1)
+    error_message = models.TextField(_("Error message"))
     language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
     source_code = models.TextField(_("Source code"))
 
