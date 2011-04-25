@@ -21,13 +21,6 @@
         <pre>
             {{ solution.source_code|linenumbers }}
         </pre>
-        <p>Result: {{ solution.get_result_display }}</p>
-        {% if solution.error_message %}
-            <p>Error message:</p>
-            <pre>
-                {{ solution.error_message}}
-            </pre>
-        {% endif %}
     {% else %}
         {% if form %}
             <form action="" method="POST">{% csrf_token %}

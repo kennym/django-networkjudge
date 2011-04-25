@@ -1,18 +1,5 @@
 [
     {
-        "pk": 1,
-        "model": "auth.user",
-        "fields": {
-            "username": "admin",
-            "password": "sha1$29ae3$002b740f8b7edceffad4358c4418bc99399f6ca5",
-            "is_active": true,
-            "is_staff": true,
-            "is_superuser": true,
-            "user_permissions": [],
-            "groups": []
-        }
-    },
-    {
         "model": "competition.Competition",
         "pk": 1,
         "fields": {
@@ -28,11 +15,16 @@
         }
     },
     {
-        "pk": 2,
-        "model": "competition.participant",
+        "pk": 1,
+        "model": "auth.user",
         "fields": {
-            "competition": 1,
-            "team": 1
+            "username": "admin",
+            "password": "sha1$29ae3$002b740f8b7edceffad4358c4418bc99399f6ca5",
+            "is_active": true,
+            "is_staff": true,
+            "is_superuser": true,
+            "user_permissions": [],
+            "groups": []
         }
     },
     {
@@ -53,19 +45,71 @@
         }
     },
     {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "olimp_judge_1",
+            "first_name": "Juan",
+            "last_name": "Perez",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2011-04-24 14:40:01",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$0acb8$aca274fa46116f8aa0e264eb2a01b19f7ff65ca1",
+            "email": "",
+            "date_joined": "2011-04-24 14:40:01"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "competition.participant",
+        "fields": {
+            "competition": 1,
+            "team": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "competition.judge",
+        "fields": {
+            "user_permissions": [],
+            "groups": [],
+            "competition": 1
+        }
+    },
+    {
         "pk": 1,
         "model": "competition.problem",
         "fields": {
-            "sample_output": "",
-            "description": "Returns the numbers from 1 to 10 line by line, using a for loop.",
+            "description": "Return the numbers from 1 to 10 line by line, using a for loop.",
             "title": "Numbers 1 to 10",
             "sample_input": "",
+            "sample_output": "",
             "creation_time": "2011-04-24 13:31:28",
             "sample_program": "",
             "competition": [
                 1
             ],
             "output": "1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10",
+            "input": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "competition.problem",
+        "fields": {
+            "sample_output": "",
+            "description": "Escribir un programa que permita ingresar dos n\u00fameros. Imprimir por pantalla alternadamente la tabla de multiplicar de cada uno (hasta 10).\r\n",
+            "title": "Tabla de multiplicaci\u00f3n alternada",
+            "sample_input": "",
+            "creation_time": "2011-04-24 14:33:38",
+            "sample_program": "",
+            "competition": [
+                1
+            ],
+            "output": "",
             "input": ""
         }
     }

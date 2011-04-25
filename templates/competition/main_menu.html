@@ -7,13 +7,25 @@
             {% if user.is_authenticated %}
                 {% if user.participant %}
                     <li>
-                        <a href="{{ competition.problems }}">
+                        <a href="{{ user.participant.competition.problems }}">
                             Problems
                         </a>
                     </li>
                     <li>
                         <a href="/participant/submissions">
                             My Submissions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/competition/rankings">
+                            Rankings
+                        </a>
+                    </li>
+                {% endif %}
+                {% if user.judge %}
+                    <li>
+                        <a href="{{ user.judge.competition.solutions }}">
+                            Solutions
                         </a>
                     </li>
                     <li>

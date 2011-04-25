@@ -80,7 +80,11 @@ class Competition(models.Model):
     @models.permalink
     def problems(self):
         return ('competition.views.competition_problems', [str(self.id)])
-        
+
+    @models.permalink
+    def solutions(self):
+        return ('competition.views.competition_solutions', [str(self.id)])
+
 
     def __unicode__(self):
         return self.title
@@ -154,26 +158,28 @@ class Solution(models.Model):
     """
     participant = models.ForeignKey(Participant)
     problem = models.ForeignKey(Problem)
+    competition = models.ForeignKey(Competition)
 
-    RESULT_CHOICE = (
-        ('0',_('Compile successful')),
-        ('1',_('Compile Error')),
-    )
-
-    JUDGE_RESULT = (
+    JUDGE_CHOICE = (
         ('0', _('Pending')),
         ('1', _('Solution correct')),
         ('2', _('Solution incorrect'))
     )
 
-    judge_result = models.CharField(_("Judge Result"), choices=RESULT_CHOICE, max_length=1)
+    COMPUTER_RESULT_CHOICE = (
+        ('0', _('Successful')),
+        ('1', _('Error')),
+    )
 
-    computer_result = models.CharField(_("Computer Result"), choices=RESULT_CHOICE, max_length=1)
-    error_message = models.TextField(_("Error message"))
+    output = models.TextField(_("Output"), blank=True, null=True)
+    judge_result = models.CharField(_("Judge Result"), choices=JUDGE_CHOICE, max_length=1, default='0')
+
+    computer_result = models.CharField(_("Computer Result"), choices=COMPUTER_RESULT_CHOICE, max_length=1)
+    error_message = models.TextField(_("Error message"), blank=True, null=True)
     language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
     source_code = models.TextField(_("Source code"))
 
     submit_time = models.DateTimeField(_("Submit time"), auto_now_add=True)
 
     def __unicode__(self):
-        return "Solution(Participant: " + str(self.participant) + ", " + str(self.problem) + ")"
+        return "Solution #" + str(self.id)

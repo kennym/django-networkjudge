@@ -72,6 +72,10 @@ class ComJudge:
         self.temp_name = temp_name
 
     def get_status(self):
+        """
+        Returns a tuple with the following information:
+         (status_code, output, errors)
+        """
         return (self.status_code, self.output, self.errors)
 
 

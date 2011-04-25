@@ -26,7 +26,7 @@ class ProblemAdmin(admin.ModelAdmin):
 admin.site.register(Problem, ProblemAdmin)
 
 class SolutionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('__unicode__', 'participant', 'problem', 'judge_result', 'computer_result')
 admin.site.register(Solution, SolutionAdmin)
 
 

@@ -4,15 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import (
     render_to_response,
-    HttpResponseRedirect,
-    Http404,
     RequestContext,
     redirect,
     get_object_or_404
 )
 
 from competition.forms import UploadSolutionForm
-from competition.models import Participant, Solution, Problem, Competition
+from competition.models import Participant, Solution, Problem, Competition, Judge
 from com_judge import ComJudge
 
 
@@ -22,16 +20,25 @@ def index(request):
         if user.is_superuser:
             return redirect('/admin')
 
+        judge = None
+        participant = None
+        competition = None
         try:
             participant = user.participant or None
-            #judge = user.judge or None
+            judge = user.judge or None
             #organizer = user.organizer or None
-            competition = participant.competition
+            if participant:
+                competition = participant.competition
+            if judge:
+                competition = judge.competition
+        except Participant.DoesNotExist, e:
+            pass
+        except Judge.DoesNotExist, e:
+            pass
         except Exception, e:
-            raise e
+            raise
 
         context = {
-            "participant": participant,
             "competition": competition
         }
     else:
@@ -51,7 +58,23 @@ def competition_problems(request, id):
         'problems': problems
     }
 
-    return render_to_response("competition/problems.html", context, context_instance=RequestContext(request))
+    return render_to_response("competition/problem/list.html", context, context_instance=RequestContext(request))
+
+
+@login_required
+def competition_solutions(request, competition_id):
+    competition = get_object_or_404(Competition, pk=competition_id)
+    # Get all solutions of the competition
+    solutions = competition.solution_set.all()
+
+    context = {
+        "objects": solutions
+    }
+
+    return render_to_response("competition/solution/list.html",
+                              context,
+                              RequestContext(request))
+
 
 @login_required
 def problem_detail(request, id):
@@ -107,11 +130,12 @@ def submit_solution(request, problem_id):
                 c = ComJudge(compiler, solution.source_code)
                 c.run()
                 status = c.get_status()
-
-                solution.result = status[0]
+                solution.computer_result = status[0]
+                solution.output = status[1]
                 solution.error_message = status[2] or None
                 solution.participant = participant
                 problem = get_object_or_404(Problem, pk=problem_id)
+                solution.competition = participant.competition
                 solution.problem = problem
                 solution.save()
             return render_to_response("competition/solution/submit.html",
@@ -137,3 +161,18 @@ def submit_solution(request, problem_id):
         return render_to_response("competition/solution/submit.html",
                                   context,
                                   context_instance=RequestContext(request))
+
+@login_required
+def solution_evaluate(request, judge_id, solution_id):
+    judge = get_object_or_404(Judge, pk=judge_id)
+    solution = get_object_or_404(Solution, pk=solution_id)
+
+    context = {
+        "judge": judge,
+        "solution": solution
+    }
+
+    return render_to_response("competition/judge/evaluate.html",
+                              context,
+                              context_instance=RequestContext(request))
+

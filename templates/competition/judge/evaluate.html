@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {% include "competition/main_menu.html" %}
+{% endblock %}
+
+{% block main-content %}
+    <p>Evaluation of {{ solution }} to problem #{{ solution.problem.id }}.</p>
+
+    <h3>Problem details</h3>
+
+    <p>Problem description:</p>
+    <pre>{{ solution.problem.description }}</pre>
+
+    <h3>Solution details:</h3>
+
+    <p>Source code:</p>
+    <pre>
+        {{ solution.source_code|linenumbers }}
+    </pre>
+
+    <p>Chosen programming language: {{ solution.get_language_display }}</p>
+    <p>Compile result: {{ solution.get_computer_result_display }}</p>
+    <p>Output:</p>
+    <pre>{{ solution.output }}</pre>
+    <p>Error messages:
+    {% if solution.error_message %}
+    <pre>solution.error_message</pre>
+    {% else %}
+    No errors during compile process.
+    {% endif %}
+    </p>
+{% endblock %}
+
+

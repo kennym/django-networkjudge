@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block header %}
+    {% include "competition/main_menu.html" %}
+{% endblock %}
+
+{% block main-content %}
+    <h1>Solutions set for {{ user.judge.competition.title }}</h1>
+    {% if objects %}
+    <ul>
+        {% for object in objects %}
+        <li>
+            Solution from Participant {{ object.participant }} for
+            <a href="{{ object.problem.get_absolute_url }}">
+                Problem #{{ object.problem.id }}
+            </a>
+            ({{ object.submit_time|timesince }}) |
+            {% if object.judge_result == "0" %}{# Pending #}
+            <a href="{% url competition.views.solution_evaluate user.judge.id object.id %}">Judge</a>
+            {% else %}
+            <a href="{% url competition.views.solution_evaluate user.judge.id object.id %}">Rejudge</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No solutions.</p>
+    {% endif %}
+{% endblock %}
