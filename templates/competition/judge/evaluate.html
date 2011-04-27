@@ -5,31 +5,55 @@
 {% endblock %}
 
 {% block main-content %}
-    <p>Evaluation of {{ solution }} to problem #{{ solution.problem.id }}.</p>
+    <h2>Evaluation of {{ solution }} to problem #{{ solution.problem.id }}.</h2>
 
-    <h3>Problem details</h3>
-
-    <p>Problem description:</p>
-    <pre>{{ solution.problem.description }}</pre>
+    <h3>Problem description:</h3>
+    <p>{{ solution.problem.description }}</p>
 
     <h3>Solution details:</h3>
 
-    <p>Source code:</p>
-    <pre>
-        {{ solution.source_code|linenumbers }}
-    </pre>
+    <div>
+        <div id="left">
+            <label><b>Source code:</b></label>
+            <pre>
+                {{ solution.source_code }}
+            </pre>
 
-    <p>Chosen programming language: {{ solution.get_language_display }}</p>
-    <p>Compile result: {{ solution.get_computer_result_display }}</p>
-    <p>Output:</p>
-    <pre>{{ solution.output }}</pre>
-    <p>Error messages:
-    {% if solution.error_message %}
-    <pre>solution.error_message</pre>
-    {% else %}
-    No errors during compile process.
-    {% endif %}
-    </p>
+        </div>
+        <p>Chosen programming language: {{ solution.get_language_display }}</p>
+        <p>Compile result: {{ solution.get_computer_result_display }}</p>
+        <p>Error messages:
+            {% if solution.error_message %}
+                <pre>solution.error_message</pre>
+            {% else %}
+                No errors during compile process.
+            {% endif %}
+        </p>
+        <table class="solution-compare">
+            <thead >
+                <tr>
+                    <th>Output</th>
+                    <th>Expected output</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>
+                        <pre>{{ solution.output }}</pre>
+                    </th>
+                    <th>
+                        <pre>{{ solution.problem.output }}</pre>
+                    </th>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <form action="" method="POST">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
 {% endblock %}
 
 

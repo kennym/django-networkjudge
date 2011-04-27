@@ -24,9 +24,17 @@ class ComJudge:
      0 - Everything went fine
      1 - Error occurred (SyntaxError, )
     """
-    def __init__(self, compiler, source_code):
-        self.compiler = compiler
+    def __init__(self, language, source_code, output=None):
+        # TODO: Implement time limit
+        if language == "python":
+            self.compiler = "python"
+        elif language == "pascal":
+            self.compiler = "pascal"
+        else:
+            raise NotImplementedError()
         self.source_code = source_code
+        self.output = output
+
         self.temp_name = None
 
         self.status_code = None
@@ -39,7 +47,6 @@ class ComJudge:
         """
         self._create_temp_name()
         cmd = self._make_command()
-
 
         process = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
         process.wait()
@@ -75,13 +82,15 @@ class ComJudge:
         """
         Returns a tuple with the following information:
          (status_code, output, errors)
+
+        status_code can be:
+          0 - everything went fine
+          1 - compile error
         """
         return (self.status_code, self.output, self.errors)
 
 
-
 class TestComJudge(unittest.TestCase):
-
     def test_python_source_code(self):
         compiler = "python"
         source_code = """

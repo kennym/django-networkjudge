@@ -9,8 +9,16 @@ from django.shortcuts import (
     get_object_or_404
 )
 
-from competition.forms import UploadSolutionForm
-from competition.models import Participant, Solution, Problem, Competition, Judge
+from competition.forms import (
+    UploadSolutionForm
+)
+from competition.models import (
+    Competition,
+    Judge,
+    Participant,
+    Problem,
+    Solution
+)
 from com_judge import ComJudge
 
 
@@ -121,23 +129,12 @@ def submit_solution(request, problem_id):
             else:
 
                 solution = form.save(commit=False)
-                compiler = None
-                if solution.language == "A":
-                    compiler = "python"
-                elif solution.language == "B":
-                    compiler = "javac"
-
-                c = ComJudge(compiler, solution.source_code)
-                c.run()
-                status = c.get_status()
-                solution.computer_result = status[0]
-                solution.output = status[1]
-                solution.error_message = status[2] or None
                 solution.participant = participant
                 problem = get_object_or_404(Problem, pk=problem_id)
                 solution.competition = participant.competition
                 solution.problem = problem
                 solution.save()
+                solution.compile_and_run()
             return render_to_response("competition/solution/submit.html",
                                       {'solution': solution},
                                       context_instance=RequestContext(request))
@@ -148,7 +145,6 @@ def submit_solution(request, problem_id):
         problem = get_object_or_404(Problem, pk=problem_id)
         participant = get_object_or_404(Participant, pk=request.user.id)
         solution = None
-        # TODO: Use solutions instead of solution
         for sol in participant.solution_set.all():
             if sol.problem == problem:
                 solution = sol
@@ -162,17 +158,5 @@ def submit_solution(request, problem_id):
                                   context,
                                   context_instance=RequestContext(request))
 
-@login_required
-def solution_evaluate(request, judge_id, solution_id):
-    judge = get_object_or_404(Judge, pk=judge_id)
-    solution = get_object_or_404(Solution, pk=solution_id)
-
-    context = {
-        "judge": judge,
-        "solution": solution
-    }
-
-    return render_to_response("competition/judge/evaluate.html",
-                              context,
-                              context_instance=RequestContext(request))
-
+def solution_judge(request, judge_id, solution_id):
+    pass

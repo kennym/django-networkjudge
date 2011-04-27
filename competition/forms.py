@@ -1,6 +1,8 @@
 from django import forms
 
-from competition.models import Solution
+from competition.models import (
+    Solution,
+)
 
 class UploadSolutionForm(forms.ModelForm):
     class Meta:

@@ -6,10 +6,15 @@ from django.utils.translation import ugettext as _
 
 from datetime import datetime, timedelta
 
+from com_judge import ComJudge
+
 
 PROGRAMMING_LANGUAGES = (
-    ('A', _("Python 2.6")),
-    ('B', _("Java")),
+    ('python', "Python 2.6"),
+    ('pascal', "Pascal"),
+    ('c', "C"),
+    ('c++', "C++")
+    #('java', _("Java")),
 )
 
 COMPETITION_STATUSES = (
@@ -18,6 +23,7 @@ COMPETITION_STATUSES = (
     ('2', 'In Evaluation'),
     ('3', 'Finish'),
 )
+
 
 class Competition(models.Model):
     """
@@ -101,9 +107,8 @@ class Organizer(User):
     """
     Organizer model.
 
-    An organizer can add, modify and delete properties of the competition he belongs
-     to.
-
+    An organizer can add, modify and delete properties of the
+    competition he belongs to.
     """
     competition = models.ForeignKey(Competition)
 
@@ -155,31 +160,91 @@ class Problem(models.Model):
 class Solution(models.Model):
     """
     A solution is the submission of a participant to a problem.
+
+    A solution can only be pointable result is set to 'Correct' and is accepted.
     """
     participant = models.ForeignKey(Participant)
     problem = models.ForeignKey(Problem)
     competition = models.ForeignKey(Competition)
 
-    JUDGE_CHOICE = (
-        ('0', _('Pending')),
-        ('1', _('Solution correct')),
-        ('2', _('Solution incorrect'))
+    RESULT_CHOICE = (
+        (0, _('Pending')),
+        (1, _('Correct')),
+        (2, _('Too late')), # Submitted after competition ended
+        (3, _('Compile Error')),
+        (4, _('Time limit exceeded')),
+        (5, _('No Output')),
+        (6, _('Wrong answer')),
+        (7, _('Invalid submission'))
+        #('8', _('Presentation error')),
     )
 
-    COMPUTER_RESULT_CHOICE = (
-        ('0', _('Successful')),
-        ('1', _('Error')),
-    )
-
-    output = models.TextField(_("Output"), blank=True, null=True)
-    judge_result = models.CharField(_("Judge Result"), choices=JUDGE_CHOICE, max_length=1, default='0')
-
-    computer_result = models.CharField(_("Computer Result"), choices=COMPUTER_RESULT_CHOICE, max_length=1)
-    error_message = models.TextField(_("Error message"), blank=True, null=True)
-    language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
     source_code = models.TextField(_("Source code"))
+    language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
+    result = models.CharField(_("Result"), choices=RESULT_CHOICE, max_length=1, default=0)
+    output = models.TextField(_("Output"), blank=True, null=True)
+    error_message = models.TextField(_("Error message"), blank=True, null=True)
+
+    accepted = models.BooleanField(_("Accepted"), default=False)
 
     submit_time = models.DateTimeField(_("Submit time"), auto_now_add=True)
+
+    def compile_and_run(self):
+        c = ComJudge(self.language, self.source_code, self.problem.output)
+        c.run()
+
+        status = c.get_status()
+        return_code = status[0]
+        output = status[1]
+        error_message = status[2]
+
+        # Result correct
+        ## Result is correct if return_code == 0, there are no error messages,
+        ## and output equals self.problem.output
+        if return_code == 0 and output == self.problem.output and error_message in ("", None):
+            self.result = 1 # Result correct
+
+        # Result 'Invalid submission'
+        ## The solution is an invalid submission if there is a previous solution which was accepted and
+        ## which result is 'Correct'
+        solutions = Solution.objects.filter(participant=self.participant, result=1, accepted=True)
+        if solutions:
+            for solution in solutions:
+                if solution.result == 1 and solution.accepted == True:
+                    self.result = 7
+
+        # Result 'Too late'
+        ## Result is 'Too late' if submit_time is greater than competition.endTime
+        if  self.competition.endTime:
+            if self.submit_time > self.competition.endTime:
+                self.result == 2
+        # Result 'Compile Error'
+        ## There is a compile error if returncode == 1 and there is an error message
+        elif return_code == 1 and error_message not in ("", None):
+            self.result == 3
+        # Result 'Time limit exceeded'
+        ## Time limit is exceeded when return code is 2
+        elif return_code == 2:
+            self.result = 4
+        # Result 'No output'
+        ## Happens when output is an empty string or None, but return_code is 0
+        elif output in ("", None) and return_code == 0:
+            self.result = 5
+        # Result 'Wrong answer'
+        ## Answer is wrong when output doesn't match the expected output
+        # TODO: use diff utils
+        elif output != self.problem.output:
+            self.result = 6
+        else:
+            print return_code
+            print output
+            print error_message
+            raise AssertionError("Should never happen!")
+
+        self.output = status[1]
+        self.error_message = status[2]
+
+        self.save(force_update=True)
 
     def __unicode__(self):
         return "Solution #" + str(self.id)

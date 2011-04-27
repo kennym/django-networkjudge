@@ -10,10 +10,10 @@ urlpatterns = patterns('',
 
     # Problems
     url(r'^problem/(\d+)/$', views.problem_detail, name="problem-detail"),
-    url(r'^problem/(\d+)/submit/$', views.submit_solution, name="submit-solution"),
+    url(r'^problem/(\d+)/solution/submit/$', views.submit_solution, name="submit-solution"),
 
     # Solutions
-    url(r'^judge/(\d+)/solution/(\d+)/evaluate/$', views.solution_evaluate, name="solution-evaluate"),
+    url(r'^judge/(\d+)/solution/(\d+)/judge/$', views.solution_judge , name="solution-evaluate"),
 
     # Authentication
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'competition/login.html'}, name='login'),
