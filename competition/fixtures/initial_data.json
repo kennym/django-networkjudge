@@ -85,6 +85,7 @@
         "fields": {
             "description": "Return the numbers from 1 to 10 line by line, using a for loop.",
             "title": "Numbers 1 to 10",
+            "time_limit": 20,
             "sample_input": "",
             "sample_output": "",
             "creation_time": "2011-04-24 13:31:28",

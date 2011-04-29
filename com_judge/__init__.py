@@ -24,7 +24,7 @@ class ComJudge:
      0 - Everything went fine
      1 - Error occurred (SyntaxError, )
     """
-    def __init__(self, language, source_code, output=None):
+    def __init__(self, language, source_code, output=None, time_limit=5):
         # TODO: Implement time limit
         if language == "python":
             self.compiler = "python"
@@ -34,6 +34,7 @@ class ComJudge:
             raise NotImplementedError()
         self.source_code = source_code
         self.output = output
+        self.time_limit = time_limit
 
         self.temp_name = None
 

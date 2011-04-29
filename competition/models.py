@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from datetime import datetime, timedelta
 
 from com_judge import ComJudge
+from utils import are_equal
 
 
 PROGRAMMING_LANGUAGES = (
@@ -140,6 +141,9 @@ class Problem(models.Model):
 
     title = models.CharField(_('Title'), max_length=255, unique=True)
     description = models.TextField(_('Description'))
+    time_limit = models.IntegerField(_('Time limit'),
+                                     help_text=_("Time limit in seconds"),
+                                     default=5)
     input = models.TextField(_('Input'), blank=True, null=True)
     output = models.TextField(_('Output'), blank=True, null=True)
 
@@ -198,12 +202,6 @@ class Solution(models.Model):
         output = status[1]
         error_message = status[2]
 
-        # Result correct
-        ## Result is correct if return_code == 0, there are no error messages,
-        ## and output equals self.problem.output
-        if return_code == 0 and output == self.problem.output and error_message in ("", None):
-            self.result = 1 # Result correct
-
         # Result 'Invalid submission'
         ## The solution is an invalid submission if there is a previous solution which was accepted and
         ## which result is 'Correct'
@@ -213,15 +211,15 @@ class Solution(models.Model):
                 if solution.result == 1 and solution.accepted == True:
                     self.result = 7
 
-        # Result 'Too late'
-        ## Result is 'Too late' if submit_time is greater than competition.endTime
-        if  self.competition.endTime:
-            if self.submit_time > self.competition.endTime:
-                self.result == 2
+        # Result correct
+        ## Result is correct if return_code == 0, there are no error messages,
+        ## and output equals self.problem.output
+        if return_code == 0 and are_equal(self.problem.output, output) and error_message in ("", None):
+            self.result = 1 # Result correct
         # Result 'Compile Error'
         ## There is a compile error if returncode == 1 and there is an error message
-        elif return_code == 1 and error_message not in ("", None):
-            self.result == 3
+        elif return_code == 1 and error_message:
+            self.result = 3
         # Result 'Time limit exceeded'
         ## Time limit is exceeded when return code is 2
         elif return_code == 2:
@@ -232,14 +230,18 @@ class Solution(models.Model):
             self.result = 5
         # Result 'Wrong answer'
         ## Answer is wrong when output doesn't match the expected output
-        # TODO: use diff utils
-        elif output != self.problem.output:
+        elif not are_equal(self.problem.output, output):
             self.result = 6
         else:
             print return_code
             print output
             print error_message
-            raise AssertionError("Should never happen!")
+            raise AssertionError("Should never reach this code!")
+        # Result 'Too late'
+        ## Result is 'Too late' if submit_time is greater than competition.endTime
+        if self.competition.endTime:
+            if self.submit_time > self.competition.endTime:
+                self.result = 2
 
         self.output = status[1]
         self.error_message = status[2]
