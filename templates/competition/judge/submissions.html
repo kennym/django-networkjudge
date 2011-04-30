@@ -2,7 +2,7 @@
 
 {% block main-content %}
     {% if submissions %}
-        <table border="2">
+        <table class="list" width="100%">
             <thead>
                 <tr>
                     <th>
@@ -21,7 +21,7 @@
                         Result
                     </th>
                     <th>
-                        Accepted
+                        Verified
                     </th>
                     <th>
                         Ignored
@@ -30,29 +30,45 @@
             </thead>
             <tbody>
             {% for submission in submissions %}
+                {% if forloop.counter|divisibleby:"2" %}
+                <tr class="roweven">
+                {% else %}
                 <tr>
+                {% endif %}
                     <td>
                         <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.id }}
                         </a>
                     </td>
                     <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.submit_time|time:"H:i:s" }}
+                        </a>
                     </td>
                     <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.participant }}
+                        </a>
                     </td>
                     <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.get_language_display }}
+                        </a>
                     </td>
                     <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.get_result_display }}
+                        </a>
                     </td>
                     <td>
-                            {{ submission.accepted }}
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
+                            {{ submission.verified }}
+                        </a>
                     </td>
                     <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
                             {{ submission.ignored }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

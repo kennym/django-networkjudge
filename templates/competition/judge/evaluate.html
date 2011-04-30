@@ -54,9 +54,19 @@
     <div>
         <h2>Evaluation</h2>
 
-        <form>
-            {{ form.as_table }}
-            <input type="submit">
+        <form method="post" action="{% url verify-submission submission.id %}">{% csrf_token %}
+            {{ verify_form.non_field_errors }}
+            {{ verify_form.verified.errors }}
+            <p>Verified: {{ verify_form.verified }}
+                <input type="submit" value="Submit" />
+            </p>
+        </form>
+        <form method="post" action="{% url ignore-submission submission.id %}">{% csrf_token %}
+            {{ ignore_form.non_field_errors }}
+            {{ ignore_form.ignored.errors }}
+            <p>Ignored: {{ ignore_form.ignored }}
+                <input type="submit" value="Submit" />
+            </p>
         </form>
     </div>
 

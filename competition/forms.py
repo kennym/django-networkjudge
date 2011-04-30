@@ -9,7 +9,12 @@ class UploadSubmissionForm(forms.ModelForm):
         model = Submission
         fields = ('language', 'source_code',)
 
-class EvaluateSubmissionForm(forms.ModelForm):
+class VerifySubmissionForm(forms.ModelForm):
     class Meta:
         model = Submission
-        fields = ('accepted', 'ignored',)
+        fields = ('verified',)
+
+class IgnoreSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ('ignored',)

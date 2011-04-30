@@ -6,7 +6,7 @@ urlpatterns = patterns('',
     # Competition
     url(r'^competition/(\d+)/problems/$', views.competition_problems),
     url(r'^competition/(\d+)/solutions/$', views.competition_submissions),
-    url(r'^competition/(\d+)/participant/(\d+)/$', views.participant_view, name='participant-view'),
+    url(r'^competition/(\d+)/ranking/$', views.competition_ranking),
 
     # Problems
     url(r'^problem/(\d+)/$', views.problem_detail, name="problem-detail"),
@@ -15,6 +15,8 @@ urlpatterns = patterns('',
     # Judge
     url(r'^judge/problems/$', views.judge_problems),
     url(r'^judge/submission/(\d+)/judge/$', views.judge_submission_evaluate, name="submission-judge"),
+    url(r'^judge/submission/(\d+)/verify/$', views.judge_verify_submission, name="verify-submission"),
+    url(r'^judge/submission/(\d+)/ignore/$', views.judge_ignore_submission, name="ignore-submission"),
     url(r'^judge/submissions/$', views.judge_submissions),
 
     # Authentication

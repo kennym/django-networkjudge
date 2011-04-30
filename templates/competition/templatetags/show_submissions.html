@@ -1,5 +1,6 @@
 {% if submissions %}
-<table border="2">
+<table class="list">
+    <caption>Submissions</caption>
     <thead>
         <tr>
             <td>
@@ -21,7 +22,11 @@
     </thead>
     <tbody>
     {% for submission in submissions %}
+        {% if forloop.counter|divisibleby:"2" %}
+        <tr class="roweven">
+        {% else %}
         <tr>
+        {% endif %}
             <td>
                 {{ submission.submit_time|time:"H:i" }}
             </td>

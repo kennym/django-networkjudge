@@ -2,24 +2,33 @@
 
 {% block main-content %}
     {% if problems %}
-        <table border="2">
+        <table class="list">
             <thead>
-            <tr>
-                <td>
-                    ID
-                </td>
-                <td>
-                    Name
-                </td>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                </tr>
             </thead>
             <tbody>
             {% for problem in problems %}
+                {% if forloop.counter|divisibleby:"2" %}
+                <tr class="roweven">
+                {% else %}
                 <tr>
+                {% endif %}
                     <td>
-                        {{ problem.id }}
+                        <a href="{{ problem.get_absolute_url }}">
+                            {{ problem.id }}
+                        </a>
                     </td>
                     <td>
-                        {{ problem.title }}
+                        <a href="{{ problem.get_absolute_url }}">
+                            {{ problem.title }}
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

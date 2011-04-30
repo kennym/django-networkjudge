@@ -165,14 +165,14 @@ class Problem(models.Model):
         return ('competition.views.problem_detail', [str(self.id)])
 
     def __unicode__(self):
-        return "Problem(" + self.title + ")"
+        return self.title
 
 
 class Submission(models.Model):
     """
     The submission of a participant to a problem.
 
-    A solution can only be pointable result is set to 'Correct' and is accepted.
+    A solution can only be pointable result is set to 'Correct' and is verified.
     """
     participant = models.ForeignKey(Participant)
     problem = models.ForeignKey(Problem)
@@ -196,8 +196,9 @@ class Submission(models.Model):
     output = models.TextField(_("Output"), blank=True, null=True)
     error_message = models.TextField(_("Error message"), blank=True, null=True)
 
-    accepted = models.BooleanField(_("Accepted"), default=False)
+    verified = models.BooleanField(_("Verified"), default=False)
     ignored = models.BooleanField(_("Ignored"), default=False)
+    claimed_by = models.ForeignKey(Judge, name=_("Claimed by"), blank=True, null=True)
 
     submit_time = models.DateTimeField(_("Submit time"), auto_now_add=True)
 
@@ -211,12 +212,12 @@ class Submission(models.Model):
         error_message = status[2]
 
         # Result 'Invalid submission'
-        ## The solution is an invalid submission if there is a previous solution which was accepted and
+        ## The solution is an invalid submission if there is a previous solution which was verified and
         ## which result is 'Correct'
-        submissions = Submission.objects.filter(participant=self.participant, result=1, accepted=True)
+        submissions = Submission.objects.filter(participant=self.participant, result=1, verified=True)
         if submissions:
             for submission in submissions:
-                if submission.result == 1 and submission.accepted == True:
+                if submission.result == 1 and submission.verified == True:
                     self.result = 7
 
         # Result correct

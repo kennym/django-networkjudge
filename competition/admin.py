@@ -26,7 +26,7 @@ class ProblemAdmin(admin.ModelAdmin):
 admin.site.register(Problem, ProblemAdmin)
 
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'participant', 'problem', 'competition', 'result', 'accepted', 'ignored', 'submit_time')
+    list_display = ('__unicode__', 'participant', 'problem', 'competition', 'result', 'verified', 'ignored', 'submit_time')
 admin.site.register(Submission, SubmissionAdmin)
 
 

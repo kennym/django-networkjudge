@@ -12,7 +12,8 @@ from django.shortcuts import (
 
 from competition.forms import (
     UploadSubmissionForm,
-    EvaluateSubmissionForm
+    IgnoreSubmissionForm,
+    VerifySubmissionForm
 )
 from competition.models import (
     Competition,
@@ -95,26 +96,6 @@ def problem_detail(request, id):
                               context_instance=RequestContext(request))
 
 @login_required
-def participant_view(request, id, extra_context=None):
-    participant = get_object_or_404(Participant, pk=id)
-    competition = participant.competition
-    team = participant.team
-    problems = competition.problem_set.all()
-    context = {
-        "participant": participant,
-        "competition": competition,
-        "team": team,
-        "problems": problems,
-        "form": UploadSubmissionForm()
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    return render_to_response("competition/participant/index.html",
-                              context,
-                              context_instance=RequestContext(request))
-
-
-@login_required
 def upload_submission(request, problem_id):
     if request.method == "POST" and request.POST:
         form = UploadSubmissionForm(request.POST)
@@ -160,11 +141,13 @@ def judge_submission_evaluate(request, submission_id):
         raise Http404
 
     submission = get_object_or_404(Submission, pk=submission_id)
-    form = EvaluateSubmissionForm(instance=submission)
+    verify_form = VerifySubmissionForm(instance=submission)
+    ignore_form = IgnoreSubmissionForm(instance=submission)
 
     context = {
         "submission": submission,
-        "form": form
+        "verify_form": verify_form,
+        "ignore_form": ignore_form
     }
 
     return render_to_response("competition/judge/evaluate.html",
@@ -206,4 +189,45 @@ def judge_problems(request):
     return render_to_response("competition/judge/problems.html",
                               context,
                               context_instance=RequestContext(request))
+
+@login_required
+def judge_verify_submission(request, submission_id):
+    judge = None
+    try:
+        judge = request.user.judge
+    except:
+        raise Http404
+
+    if request.method == "POST" and request.POST:
+        submission = get_object_or_404(Submission, pk=submission_id)
+        form = VerifySubmissionForm(request.POST, instance=submission)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.claimed_by = judge
+            submission.save()
+            return judge_submissions(request)
+        else:
+            return judge_submission_evaluate(request, submission_id)
+    else:
+        return Http404
+
+@login_required
+def judge_ignore_submission(request, submission_id):
+    judge = None
+    try:
+        judge = request.user.judge
+    except:
+        raise Http404
+
+    if request.method == "POST" and request.POST:
+        submission = get_object_or_404(Submission, pk=submission_id)
+        form = IgnoreSubmissionForm(request.POST, instance=submission)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.save()
+            return judge_submissions(request)
+        else:
+            return judge_submission_evaluate(request, submission_id)
+    else:
+        return Http404
 
