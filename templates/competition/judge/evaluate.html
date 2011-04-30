@@ -1,59 +1,120 @@
 {% extends "base.html" %}
 
+{% block title %}Evaluation - {{ submission }}{% endblock %}
+
 {% block header %}
     {% include "competition/main_menu.html" %}
 {% endblock %}
 
 {% block main-content %}
-    <h2>Evaluation of {{ solution }} to problem #{{ solution.problem.id }}.</h2>
-
-    <h3>Problem description:</h3>
-    <p>{{ solution.problem.description }}</p>
-
-    <h3>Solution details:</h3>
+    <table>
+        <caption>{{ submission }}</caption>
+        <tr>
+            <td>
+                Participant:
+            </td>
+            <td>
+                {{ submission.participant }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Problem:
+            </td>
+            <td>
+                {{ submission.problem }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Programming language:
+            </td>
+            <td>
+                {{ submission.get_language_display }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Submitted:
+            </td>
+            <td>
+                {{ submission.submit_time }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Max runtime:
+            </td>
+            <td>
+                {{ submission.problem.time_limit }} sec
+            </td>
+        </tr>
+    </table>
 
     <div>
-        <div id="left">
-            <label><b>Source code:</b></label>
-            <pre>
-                {{ solution.source_code }}
-            </pre>
+        <h2>Evaluation</h2>
 
-        </div>
-        <p>Chosen programming language: {{ solution.get_language_display }}</p>
-        <p>Compile result: {{ solution.get_computer_result_display }}</p>
-        <p>Error messages:
-            {% if solution.error_message %}
-                <pre>solution.error_message</pre>
-            {% else %}
-                No errors during compile process.
-            {% endif %}
-        </p>
-        <table class="solution-compare">
-            <thead >
+        <form>
+            {{ form.as_table }}
+            <input type="submit">
+        </form>
+    </div>
+
+    <div>
+        <h2>Review</h2>
+        <table width="100%">
+            <caption>Source code:</caption>
+            <tr>
+                <td>
+                    <pre>
+                        {{ submission.source_code|linenumbers }}
+                    </pre>
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%">
+            <caption>Error messages:</caption>
+            <tr>
+                <td>
+                    <pre>
+                        {{ submission.error_message }}
+                    </pre>
+                </td>
+            </tr>
+        </table>
+
+        <table width="100%">
+            <thead>
                 <tr>
-                    <th>Output</th>
-                    <th>Expected output</th>
+                    <th>
+                        Expected output
+                    </th>
+                    <th>
+                        Real output
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th>
-                        <pre>{{ solution.output }}</pre>
-                    </th>
-                    <th>
-                        <pre>{{ solution.problem.output }}</pre>
-                    </th>
+                    <td>
+                        <pre>
+                            {{ submission.problem.output }}
+                        </pre>
+                    </td>
+                    <td>
+                        {% if submission.output %}
+                        <pre>
+                            {{ submission.output }}
+                        </pre>
+                        {% else %}
+                        No output
+                        {% endif %}
+                    </td>
                 </tr>
-
             </tbody>
         </table>
     </div>
-
-    <form action="" method="POST">{% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
 {% endblock %}
 
 

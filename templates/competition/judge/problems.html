@@ -1,0 +1,31 @@
+{% extends "competition/index.html" %}
+
+{% block main-content %}
+    {% if problems %}
+        <table border="2">
+            <thead>
+            <tr>
+                <td>
+                    ID
+                </td>
+                <td>
+                    Name
+                </td>
+            </thead>
+            <tbody>
+            {% for problem in problems %}
+                <tr>
+                    <td>
+                        {{ problem.id }}
+                    </td>
+                    <td>
+                        {{ problem.title }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No submissions</p>
+    {% endif %}
+{% endblock %}

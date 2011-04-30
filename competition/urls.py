@@ -5,15 +5,17 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     # Competition
     url(r'^competition/(\d+)/problems/$', views.competition_problems),
-    url(r'^competition/(\d+)/solutions/$', views.competition_solutions),
+    url(r'^competition/(\d+)/solutions/$', views.competition_submissions),
     url(r'^competition/(\d+)/participant/(\d+)/$', views.participant_view, name='participant-view'),
 
     # Problems
     url(r'^problem/(\d+)/$', views.problem_detail, name="problem-detail"),
-    url(r'^problem/(\d+)/solution/submit/$', views.submit_solution, name="submit-solution"),
+    url(r'^problem/(\d+)/solution/submit/$', views.upload_submission, name="upload-submission"),
 
-    # Solutions
-    url(r'^judge/(\d+)/solution/(\d+)/judge/$', views.solution_judge , name="solution-evaluate"),
+    # Judge
+    url(r'^judge/problems/$', views.judge_problems),
+    url(r'^judge/submission/(\d+)/judge/$', views.judge_submission_evaluate, name="submission-judge"),
+    url(r'^judge/submissions/$', views.judge_submissions),
 
     # Authentication
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'competition/login.html'}, name='login'),

@@ -1,0 +1,64 @@
+{% extends "competition/index.html" %}
+
+{% block main-content %}
+    {% if submissions %}
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Participant
+                    </th>
+                    <th>
+                        Language
+                    </th>
+                    <th>
+                        Result
+                    </th>
+                    <th>
+                        Accepted
+                    </th>
+                    <th>
+                        Ignored
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for submission in submissions %}
+                <tr>
+                    <td>
+                        <a href="{% url competition.views.judge_submission_evaluate submission.id %}">
+                            {{ submission.id }}
+                        </a>
+                    </td>
+                    <td>
+                            {{ submission.submit_time|time:"H:i:s" }}
+                    </td>
+                    <td>
+                            {{ submission.participant }}
+                    </td>
+                    <td>
+                            {{ submission.get_language_display }}
+                    </td>
+                    <td>
+                            {{ submission.get_result_display }}
+                    </td>
+                    <td>
+                            {{ submission.accepted }}
+                    </td>
+                    <td>
+                            {{ submission.ignored }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No submissions</p>
+    {% endif %}
+{% endblock %}

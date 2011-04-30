@@ -12,11 +12,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/participant/submissions">
-                            My Submissions
-                        </a>
-                    </li>
-                    <li>
                         <a href="/competition/rankings">
                             Rankings
                         </a>
@@ -24,8 +19,13 @@
                 {% endif %}
                 {% if user.judge %}
                     <li>
-                        <a href="{{ user.judge.competition.solutions }}">
-                            Solutions
+                        <a href="{{ user.judge.submissions }}">
+                            Submissions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ user.judge.problems }}">
+                            Problems
                         </a>
                     </li>
                     <li>

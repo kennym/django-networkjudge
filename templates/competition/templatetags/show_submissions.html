@@ -1,0 +1,46 @@
+{% if submissions %}
+<table border="2">
+    <thead>
+        <tr>
+            <td>
+                Time
+            </td>
+            <td>
+                Problem
+            </td>
+            <td>
+                Language
+            </td>
+            <td>
+                Result
+            </td>
+            <td>
+                Accepted
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for submission in submissions %}
+        <tr>
+            <td>
+                {{ submission.submit_time|time:"H:i" }}
+            </td>
+            <td>
+                {{ submission.problem }}
+            </td>
+            <td>
+                {{ submission.get_language_display }}
+            </td>
+            <td>
+                {{ submission.get_result_display }}
+            </td>
+            <td>
+                {{ submission.accepted }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No submissions</p>
+{% endif %}

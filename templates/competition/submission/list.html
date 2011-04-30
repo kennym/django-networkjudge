@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main-content %}
-    <h1>Solutions set for {{ user.judge.competition.title }}</h1>
+    <h1>Submissions of {{ user.judge.competition.title }}</h1>
     {% if objects %}
     <ul>
         {% for object in objects %}
@@ -16,14 +16,14 @@
             </a>
             ({{ object.submit_time|timesince }}) |
             {% if object.judge_result == "0" %}{# Pending #}
-            <a href="{% url competition.views.solution_evaluate user.judge.id object.id %}">Judge</a>
+            <a href="{% url competition.views.submission_judge user.judge.id object.id %}">Judge</a>
             {% else %}
-            <a href="{% url competition.views.solution_evaluate user.judge.id object.id %}">Rejudge</a>
+            <a href="{% url competition.views.submission_judge user.judge.id object.id %}">Rejudge</a>
             {% endif %}
         </li>
         {% endfor %}
     </ul>
     {% else %}
-    <p>No solutions.</p>
+    <p>No submissions.</p>
     {% endif %}
 {% endblock %}

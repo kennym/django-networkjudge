@@ -6,11 +6,13 @@ from django.shortcuts import (
     render_to_response,
     RequestContext,
     redirect,
-    get_object_or_404
+    get_object_or_404,
+    Http404
 )
 
 from competition.forms import (
-    UploadSubmissionForm
+    UploadSubmissionForm,
+    EvaluateSubmissionForm
 )
 from competition.models import (
     Competition,
@@ -149,5 +151,59 @@ def upload_submission(request, problem_id):
                                   context,
                                   context_instance=RequestContext(request))
 
-def submission_judge(request, judge_id, solution_id):
-    pass
+@login_required
+def judge_submission_evaluate(request, submission_id):
+    judge = None
+    try:
+        judge = request.user.judge
+    except:
+        raise Http404
+
+    submission = get_object_or_404(Submission, pk=submission_id)
+    form = EvaluateSubmissionForm(instance=submission)
+
+    context = {
+        "submission": submission,
+        "form": form
+    }
+
+    return render_to_response("competition/judge/evaluate.html",
+                              context,
+                              context_instance=RequestContext(request))
+
+@login_required
+def judge_submissions(request):
+    judge = None
+    try:
+        judge = request.user.judge
+    except:
+        raise Http404
+
+    submissions = judge.competition.submission_set.all()
+
+    context = {
+        "submissions": submissions
+    }
+
+    return render_to_response("competition/judge/submissions.html",
+                              context,
+                              context_instance=RequestContext(request))
+
+@login_required
+def judge_problems(request):
+    judge = None
+    try:
+        judge = request.user.judge
+    except:
+        raise Http404
+
+    problems = judge.competition.problem_set.all()
+
+    context = {
+        "problems": problems
+    }
+
+    return render_to_response("competition/judge/problems.html",
+                              context,
+                              context_instance=RequestContext(request))
+

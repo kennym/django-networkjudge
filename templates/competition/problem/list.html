@@ -13,7 +13,7 @@
         {% for problem in problems %}
         <li>
             <a href="{{ problem.get_absolute_url }}">{{ problem.title }}</a> |
-            <a href="{% url competition.views.submit_solution problem.id %}">Submit solution</a>
+            <a href="{% url competition.views.upload_submission problem.id %}">Submit solution</a>
         </li>
         {% endfor %}
     </ul>

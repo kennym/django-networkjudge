@@ -21,10 +21,10 @@
     {% endif %}
 
     {% if user.participant %}
-        {% if user.participant.solution.problem == problem %}
+        {% if user.participant.submission.problem == problem %}
             You have already submitted a solution
         {% else %}
-            <a href="{% url competition.views.submit_solution problem.id %}">Submit solution</a>
+            <a href="{% url competition.views.upload_submission problem.id %}">Submit solution</a>
         {% endif %}
     {% endif %}
 {% endblock %}

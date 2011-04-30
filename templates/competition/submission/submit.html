@@ -16,10 +16,10 @@
     </ul>
     {% endif %}
 
-    {% if solution %}
-        <p>Your solution:</p>
+    {% if submission %}
+        <p>Your submission:</p>
         <pre>
-            {{ solution.source_code|linenumbers }}
+            {{ submission.source_code|linenumbers }}
         </pre>
     {% else %}
         {% if form %}

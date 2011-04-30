@@ -1,7 +1,8 @@
+{% load show_submissions %}
+
 <h2>Hello {{ user.participant }}</h2>
 
 <div>
     <h4>Submissions</h4>
-
-    <h4>Scoreboard</h4>
+    {% show_submissions user.participant %}
 </div>

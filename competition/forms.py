@@ -1,10 +1,15 @@
 from django import forms
 
 from competition.models import (
-    Solution,
+    Submission
 )
 
-class UploadSolutionForm(forms.ModelForm):
+class UploadSubmissionForm(forms.ModelForm):
     class Meta:
-        model = Solution
+        model = Submission
         fields = ('language', 'source_code',)
+
+class EvaluateSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ('accepted', 'ignored',)

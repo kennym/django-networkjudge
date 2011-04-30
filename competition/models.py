@@ -102,7 +102,14 @@ class Judge(User):
     Judge model base class.
     """
     competition = models.ForeignKey(Competition)
-    
+
+    @models.permalink
+    def submissions(self):
+        return ('competition.views.judge_submissions', None)
+
+    @models.permalink
+    def problems(self):
+        return ('competition.views.judge_problems', None)
 
 class Organizer(User):
     """
@@ -161,9 +168,9 @@ class Problem(models.Model):
         return "Problem(" + self.title + ")"
 
 
-class Solution(models.Model):
+class Submission(models.Model):
     """
-    A solution is the submission of a participant to a problem.
+    The submission of a participant to a problem.
 
     A solution can only be pointable result is set to 'Correct' and is accepted.
     """
@@ -184,12 +191,13 @@ class Solution(models.Model):
     )
 
     source_code = models.TextField(_("Source code"))
-    language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=1)
-    result = models.CharField(_("Result"), choices=RESULT_CHOICE, max_length=1, default=0)
+    language = models.CharField(_("Programming language"), choices=PROGRAMMING_LANGUAGES, max_length=10)
+    result = models.IntegerField(_("Result"), choices=RESULT_CHOICE, max_length=1, default=0)
     output = models.TextField(_("Output"), blank=True, null=True)
     error_message = models.TextField(_("Error message"), blank=True, null=True)
 
     accepted = models.BooleanField(_("Accepted"), default=False)
+    ignored = models.BooleanField(_("Ignored"), default=False)
 
     submit_time = models.DateTimeField(_("Submit time"), auto_now_add=True)
 
@@ -205,10 +213,10 @@ class Solution(models.Model):
         # Result 'Invalid submission'
         ## The solution is an invalid submission if there is a previous solution which was accepted and
         ## which result is 'Correct'
-        solutions = Solution.objects.filter(participant=self.participant, result=1, accepted=True)
-        if solutions:
-            for solution in solutions:
-                if solution.result == 1 and solution.accepted == True:
+        submissions = Submission.objects.filter(participant=self.participant, result=1, accepted=True)
+        if submissions:
+            for submission in submissions:
+                if submission.result == 1 and submission.accepted == True:
                     self.result = 7
 
         # Result correct
@@ -249,4 +257,4 @@ class Solution(models.Model):
         self.save(force_update=True)
 
     def __unicode__(self):
-        return "Solution #" + str(self.id)
+        return "Submission #" + str(self.id)

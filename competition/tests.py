@@ -8,7 +8,7 @@ from competition.models import (
     Competition,
     Participant,
     Problem,
-    Solution,
+    Submission,
     Team,
     PROGRAMMING_LANGUAGES
 )
@@ -64,13 +64,13 @@ class CompetitionTestCase(unittest.TestCase):
 class ParticipantTestCase(unittest.TestCase):
     fixtures = ['test_data.json']
 
-class SolutionTest(unittest.TestCase):
+class SubmissionTest(unittest.TestCase):
     fixtures = ['initial_data.json']
 
     def setUp(self):
         pass
 
-    def _create_solution(self, language, source_code, competition=None):
+    def _create_submission(self, language, source_code, competition=None):
         if competition:
             competition = competition
         else:
@@ -78,11 +78,11 @@ class SolutionTest(unittest.TestCase):
         problem = Problem.objects.get(pk=1)
         participant = Participant.objects.get(pk=2)
 
-        solution = Solution.objects.create(participant=participant, problem=problem, competition=competition,
+        submission = Submission.objects.create(participant=participant, problem=problem, competition=competition,
                             language=language, source_code=source_code)
-        solution.save()
+        submission.save()
 
-        return solution
+        return submission
 
     def test_result_correct(self):
         language = PROGRAMMING_LANGUAGES[0][0]
@@ -90,21 +90,21 @@ class SolutionTest(unittest.TestCase):
 for i in xrange(1, 11):
     print i
 """
-        solution = self._create_solution(language, source_code)
-        solution.save()
-        solution.compile_and_run()
+        submission = self._create_submission(language, source_code)
+        submission.save()
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[1][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[1][0])
 
         source_code = """
 for i in xrange(1, 11):
     print i,
 """
-        solution = self._create_solution(language, source_code)
-        solution.save()
-        solution.compile_and_run()
+        submission = self._create_submission(language, source_code)
+        submission.save()
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[1][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[1][0])
 
     def test_result_too_late(self):
         language = PROGRAMMING_LANGUAGES[0][0]
@@ -115,11 +115,11 @@ for i in xrange(1, 11):
         competition = Competition.objects.get(pk=1)
         competition.stop()
 
-        solution = self._create_solution(language, source_code, competition=competition)
-        solution.compile_and_run()
-        solution.competition.reset() # To not cause obscure errors
+        submission = self._create_submission(language, source_code, competition=competition)
+        submission.compile_and_run()
+        submission.competition.reset() # To not cause obscure errors
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[2][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[2][0])
 
 
     def test_result_compiler_error(self):
@@ -128,10 +128,10 @@ for i in xrange(1, 11):
 for i in xrange(1, 11):
     prin i # Syntax error
 """
-        solution = self._create_solution(language, source_code)
-        solution.compile_and_run()
+        submission = self._create_submission(language, source_code)
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[3][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[3][0])
 
     @unittest.SkipTest
     def test_result_time_limit_exceeded(self):
@@ -147,10 +147,10 @@ for i in xrange(1, 11):
 for i in xrange(1, 11):
     pass
 """
-        solution = self._create_solution(language, source_code)
-        solution.compile_and_run()
+        submission = self._create_submission(language, source_code)
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[5][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[5][0])
 
     def test_result_wrong_answer(self):
         language = PROGRAMMING_LANGUAGES[0][0]
@@ -158,10 +158,10 @@ for i in xrange(1, 11):
 for i in xrange(1, 5):
     print i
 """
-        solution = self._create_solution(language, source_code)
-        solution.compile_and_run()
+        submission = self._create_submission(language, source_code)
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[6][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[6][0])
 
     def test_result_invalid_submission(self):
         """TODO: Handle invalid submissions correctly"""
@@ -170,17 +170,17 @@ for i in xrange(1, 5):
 for i in xrange(1, 11):
     print i
 """
-        # First create a correct solution
-        solution = self._create_solution(language, source_code)
-        solution.compile_and_run()
+        # First create a correct submission
+        submission = self._create_submission(language, source_code)
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[1][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[1][0])
 
-        # Then create another solution for the same problem
-        solution = self._create_solution(language, source_code)
-        solution.compile_and_run()
+        # Then create another submission for the same problem
+        submission = self._create_submission(language, source_code)
+        submission.compile_and_run()
 
-        self.assertEquals(solution.result, Solution.RESULT_CHOICE[7][0])
+        self.assertEquals(submission.result, Submission.RESULT_CHOICE[7][0])
 
 #    def test_result_presentation_error(self):
 #        pass
