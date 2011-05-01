@@ -67,7 +67,8 @@
         "model": "competition.participant",
         "fields": {
             "competition": 1,
-            "team": 1
+            "team": 1,
+            "score": 0
         }
     },
     {

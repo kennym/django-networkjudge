@@ -84,6 +84,13 @@ def competition_submissions(request, competition_id):
                               context,
                               RequestContext(request))
 
+@login_required
+def competition_ranking(request, competition_id):
+    competition = get_object_or_404(Competition, pk=competition_id)
+    return render_to_response("competition/ranking.html",
+                              {"competition": competition},
+                              RequestContext(request))
+
 
 @login_required
 def problem_detail(request, id):
@@ -230,4 +237,15 @@ def judge_ignore_submission(request, submission_id):
             return judge_submission_evaluate(request, submission_id)
     else:
         return Http404
+
+@login_required
+def judge_scoreboard(request):
+    participants = Participant.objects.all().order_by('score')
+
+    context = {
+        "participants": participants
+    }
+    return render_to_response("competition/judge/scoreboard.html",
+                              context,
+                              context_instance=RequestContext(request))
 

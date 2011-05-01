@@ -14,10 +14,11 @@ urlpatterns = patterns('',
 
     # Judge
     url(r'^judge/problems/$', views.judge_problems),
+    url(r'^judge/scoreboard/$', views.judge_scoreboard, name="judge-scoreboard"),
+    url(r'^judge/submissions/$', views.judge_submissions),
     url(r'^judge/submission/(\d+)/judge/$', views.judge_submission_evaluate, name="submission-judge"),
     url(r'^judge/submission/(\d+)/verify/$', views.judge_verify_submission, name="verify-submission"),
     url(r'^judge/submission/(\d+)/ignore/$', views.judge_ignore_submission, name="ignore-submission"),
-    url(r'^judge/submissions/$', views.judge_submissions),
 
     # Authentication
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'competition/login.html'}, name='login'),

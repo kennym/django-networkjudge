@@ -136,6 +136,8 @@ class Participant(User):
     competition = models.ForeignKey(Competition)
     team = models.OneToOneField(Team)
 
+    score = models.IntegerField(_("Score"), default=0)
+
     def __unicode__(self):
         return self.first_name + " " + self.last_name
 
