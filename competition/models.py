@@ -1,11 +1,12 @@
 # coding=utf-8
 
 from django.db import models
-from django.contrib.auth.models import User, UserManager
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 from datetime import datetime, timedelta
 
+from competition.signals import update_score
 from com_judge import ComJudge
 from utils import are_equal
 
@@ -129,6 +130,7 @@ class Team(models.Model):
         return self.name
 
 
+
 class Participant(User):
     """
     Participant model
@@ -137,6 +139,30 @@ class Participant(User):
     team = models.OneToOneField(Team)
 
     score = models.IntegerField(_("Score"), default=0)
+
+    def calculate_score(self):
+        """
+        Re-/Calculate score of participant.
+
+        The score is based on:
+            - the sum of correct, verified submission to a problem
+            - the number of unsuccessful submissions
+
+        Points value:
+            - Correct submission: 20 points
+            - Each incorrect submission: -2 points
+        """
+        score = 0
+        submissions = self.submission_set.filter(verified=True)
+        for submission in submissions:
+            if submission.result_correct():
+                score += 20
+            else:
+                score -= 2
+
+        self.score = score
+
+        self.save(force_update=True)
 
     def __unicode__(self):
         return self.first_name + " " + self.last_name
@@ -259,5 +285,16 @@ class Submission(models.Model):
 
         self.save(force_update=True)
 
+
+    def result_correct(self):
+        if self.result == 1:
+            return True
+        return False
+
     def __unicode__(self):
         return "Submission #" + str(self.id)
+
+    def save(self, *args, **kwargs):
+        super(Submission, self).save(*args, **kwargs)
+        update_score.send(self, participant=self.participant)
+
