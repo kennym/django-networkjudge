@@ -16,17 +16,33 @@
     </ul>
     {% endif %}
 
-    {% if submission %}
-        <p>Your submission:</p>
-        <pre>
-            {{ submission.source_code|linenumbers }}
-        </pre>
-    {% else %}
-        {% if form %}
-            <form action="" method="POST">{% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit">
-            </form>
-        {% endif %}
+    {% if form %}
+        <form action="" method="POST">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    {% endif %}
+
+    {% if submissions %}
+        <table width="100%" class="list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for submission in submissions %}
+                    <td>
+                        {{ submission.id }}
+                    </td>
+                    <td>
+                        {{ submission.get_result_display }}
+                    </td>
+                </tr>
+            </tbody>
+        {% endfor %}
+        </table>
     {% endif %}
 {% endblock %}

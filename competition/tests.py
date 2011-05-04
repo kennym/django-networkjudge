@@ -184,7 +184,3 @@ for i in xrange(1, 11):
 
 #    def test_result_presentation_error(self):
 #        pass
-
-
-class ScoringTest(unittest.TestCase):
-    pass

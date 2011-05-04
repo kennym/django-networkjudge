@@ -1,0 +1,40 @@
+{% extends "competition/index.html" %}
+{% block title %}Rankings{% endblock %}
+
+{% block main-content %}
+    <table class="list" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Participant
+                </th>
+                <th>
+                    Score
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for participant in participants %}
+            {% if participant.id == user.participant.id %}
+            <tr style="background-color: #adff2f;">
+            {% else %}
+            <tr>
+            {% endif %}
+                <td>
+                    {{ forloop.counter }}
+                </td>
+                <td>
+                    {{ participant }}
+                </td>
+                <td>
+                    {{ participant.score }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

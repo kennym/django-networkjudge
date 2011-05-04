@@ -125,19 +125,36 @@ def upload_submission(request, problem_id):
     else:
         problem = get_object_or_404(Problem, pk=problem_id)
         participant = get_object_or_404(Participant, pk=request.user.id)
-        submission = None
-        for sol in participant.submission_set.all():
-            if sol.problem == problem:
-                submission = sol
+        submissions = Submission.objects.filter(participant=participant, problem=problem)
+
         context = {
             "form": UploadSubmissionForm(),
             "competition": get_object_or_404(Competition, pk=participant.competition.id),
             "problem": problem,
-            "submission": submission
+            "submissions": submissions
         }
         return render_to_response("competition/submission/submit.html",
                                   context,
                                   context_instance=RequestContext(request))
+
+#######################################################################
+# Participant
+######################################################################
+
+@login_required
+def participant_scoreboard(request):
+    participant = request.user.participant
+    participants = Participant.objects.all().order_by('score')
+
+    context = {
+        "participants": participants,
+        "participant": participant
+    }
+
+    return render_to_response("competition/participant/scoreboard.html",
+                              context,
+                              context_instance=RequestContext(request))
+
 
 @login_required
 def judge_submission_evaluate(request, submission_id):

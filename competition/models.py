@@ -130,7 +130,6 @@ class Team(models.Model):
         return self.name
 
 
-
 class Participant(User):
     """
     Participant model
@@ -142,7 +141,7 @@ class Participant(User):
 
     def calculate_score(self):
         """
-        Re-/Calculate score of participant.
+        Re-/Calculate score of the participant.
 
         The score is based on:
             - the sum of correct, verified submission to a problem
@@ -153,7 +152,7 @@ class Participant(User):
             - Each incorrect submission: -2 points
         """
         score = 0
-        submissions = self.submission_set.filter(verified=True)
+        submissions = self.submission_set.filter(verified=True, ignored=False)
         for submission in submissions:
             if submission.result_correct():
                 score += 20

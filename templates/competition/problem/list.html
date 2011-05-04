@@ -9,13 +9,32 @@
 {% block main-content %}
     <h1>Problem set for {{ competition.title }}</h1>
     {% if problems %}
-    <ul>
+    <table class="list">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Title
+                </th>
+            </tr>
+        </thead>
+        <tbody>
         {% for problem in problems %}
-        <li>
-            <a href="{{ problem.get_absolute_url }}">{{ problem.title }}</a> |
-            <a href="{% url competition.views.upload_submission problem.id %}">Submit solution</a>
-        </li>
+            <tr>
+                <td>
+                    <a href="{{ problem.get_absolute_url }}">{{ problem.id }}</a>
+                </td>
+                <td>
+                    <a href="{{ problem.get_absolute_url }}">{{ problem.title }}</a>
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+        </tbody>
+    </table>
+    {% else %}
+    <p>There are no problems available at the moment.</p>
     {% endif %}
+
 {% endblock %}

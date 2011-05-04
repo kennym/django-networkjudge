@@ -12,6 +12,9 @@ urlpatterns = patterns('',
     url(r'^problem/(\d+)/$', views.problem_detail, name="problem-detail"),
     url(r'^problem/(\d+)/solution/submit/$', views.upload_submission, name="upload-submission"),
 
+    # Participant
+    url(r'^participant/scoreboard/$', views.participant_scoreboard, name="participant-scoreboard"),
+
     # Judge
     url(r'^judge/problems/$', views.judge_problems),
     url(r'^judge/scoreboard/$', views.judge_scoreboard, name="judge-scoreboard"),

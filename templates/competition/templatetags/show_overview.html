@@ -1,0 +1,45 @@
+<table width="100%" id="participant-overview">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Team
+            </th>
+            <th>
+                Score
+            </th>
+            {% for problem in problems %}
+                <th>{{ forloop.counter }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                {{ rank }}
+            </td>
+            <td>
+                {{ participant.team }}
+            </td>
+            <td>
+                {{ participant.score }}
+            </td>
+            {% for problem in problems %}
+                {% for k, v in problem.items %}
+                    {% if k == "solved" %}
+                        {% if v %}
+                    <td class="{{ k }}">
+                        {% else %}
+                    <td>
+                        {% endif %}
+                    {% endif %}
+                    {% if k == "submissions" %}
+                    {{ v }}</td>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
