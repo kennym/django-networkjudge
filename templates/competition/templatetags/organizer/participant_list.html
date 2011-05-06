@@ -1,0 +1,36 @@
+<table class="list">
+    <caption>Participants</caption>
+    <thead>
+        <tr>
+            <td>
+                ID
+            </td>
+            <td>
+                Name
+            </td>
+            <td>
+                Team
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
+        {% if forloop.counter|divisibleby:"2" %}
+        <tr class="roweven">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td>
+                {{ participant.id }}
+            </td>
+            <td>
+                {{ participant }}
+            </td>
+            <td>
+                {{ participant.team }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

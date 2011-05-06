@@ -20,10 +20,10 @@ PROGRAMMING_LANGUAGES = (
 )
 
 COMPETITION_STATUSES = (
-    ('0', 'Standby'),
-    ('1', 'In Progress'),
-    ('2', 'In Evaluation'),
-    ('3', 'Finish'),
+    (0, 'Standby'),
+    (1, 'In Progress'),
+    (2, 'In Evaluation'),
+    (3, 'Finish'),
 )
 
 
@@ -42,10 +42,10 @@ class Competition(models.Model):
     endTime = models.DateTimeField(null=True, blank=True)
     duration = models.BigIntegerField(null=True, blank=True)
 
-    status = models.CharField(max_length=1,
-                              choices=COMPETITION_STATUSES,
-                              default=COMPETITION_STATUSES[0][0],
-                              null=False)
+    status = models.SmallIntegerField(max_length=1,
+                                      choices=COMPETITION_STATUSES,
+                                      default=COMPETITION_STATUSES[0][0],
+                                      null=False)
 
     def start(self, duration):
         self.startTime = datetime.now()
@@ -112,12 +112,16 @@ class Judge(User):
     def problems(self):
         return ('competition.views.judge_problems', None)
 
+
 class Organizer(User):
     """
-    Organizer model.
-
-    An organizer can add, modify and delete properties of the
+    An organizer  can add, modify and delete properties of the
     competition he belongs to.
+
+    Permissions:
+        - Start competition he belongs to
+        - Stop/Reset competition
+        - Block participant submission
     """
     competition = models.ForeignKey(Competition)
 
@@ -181,8 +185,6 @@ class Problem(models.Model):
     input = models.TextField(_('Input'), blank=True, null=True)
     output = models.TextField(_('Output'), blank=True, null=True)
 
-    sample_input = models.TextField(_('Sample Input'), null=True, blank=True)
-    sample_output = models.TextField(_('Sample Output'), null=True, blank=True)
     sample_program = models.TextField(_('Sample Program'), null=True, blank=True)
 
     creation_time = models.DateTimeField(_('Creation Time'))

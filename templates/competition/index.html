@@ -15,6 +15,10 @@
         {% include "competition/judge/index.html" %}
     {% endif %}
 
+    {% if user.organizer %}
+        {% include "competition/organizer/index.html" %}
+    {% endif %}
+
     {# There will be only a competition list object if there is no user authenticated. #}
     {% if competitions %}
     <h1>Active competitions:</h1>

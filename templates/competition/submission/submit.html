@@ -8,6 +8,43 @@
     <h1>{{ problem.title }}</h1>
     <p>{{ problem.description }}</p>
 
+    <table width="100%" class="list">
+        <thead>
+            <th>
+                Input
+            </th>
+            <th>
+                Output
+            </th>
+        </thead>
+        <tbody>
+            <tr>
+                <td >
+                    {% if problem.input %}
+                    <pre>
+                        {{ problem.input }}
+                    </pre>
+                    {% else %}
+                    <p>
+                        N/A
+                    </p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if problem.output %}
+                    <pre>
+                        {{ problem.output }}
+                    </pre>
+                    {% else %}
+                    <p>
+                        N/A
+                    </p>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -25,6 +62,7 @@
 
     {% if submissions %}
         <table width="100%" class="list">
+            <caption>Your submissions</caption>
             <thead>
                 <tr>
                     <th>ID</th>

@@ -18,6 +18,7 @@ from competition.forms import (
 from competition.models import (
     Competition,
     Judge,
+    Organizer,
     Participant,
     Problem,
     Submission
@@ -36,14 +37,18 @@ def index(request):
         try:
             participant = user.participant or None
             judge = user.judge or None
-            #organizer = user.organizer or None
+            organizer = user.organizer or None
             if participant:
                 competition = participant.competition
             if judge:
                 competition = judge.competition
+            if organizer:
+                competition = organizer.competition
         except Participant.DoesNotExist, e:
             pass
         except Judge.DoesNotExist, e:
+            pass
+        except Organizer.DoesNotExist, e:
             pass
         except Exception, e:
             raise
@@ -106,6 +111,7 @@ def problem_detail(request, id):
 def upload_submission(request, problem_id):
     if request.method == "POST" and request.POST:
         form = UploadSubmissionForm(request.POST)
+        problem = get_object_or_404(Problem, pk=problem_id)
         if form.is_valid():
             participant = get_object_or_404(Participant, pk=request.user.id)
 
@@ -120,7 +126,10 @@ def upload_submission(request, problem_id):
                                       {'submission': submission},
                                       context_instance=RequestContext(request))
         return render_to_response("competition/submission/submit.html",
-                                  {'form': form},
+                                  {
+                                      'form': form,
+                                      'problem': problem
+                                  },
                                   context_instance=RequestContext(request))
     else:
         problem = get_object_or_404(Problem, pk=problem_id)

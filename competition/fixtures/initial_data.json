@@ -11,7 +11,14 @@
         "model": "competition.team",
         "pk": 1,
         "fields": {
-            "name": "Raul Pena"
+            "name": "Raul Peña"
+        }
+    },
+    {
+        "model": "competition.team",
+        "pk": 2,
+        "fields": {
+            "name": "C.R.E.E."
         }
     },
     {
@@ -32,8 +39,8 @@
         "model": "auth.user",
         "fields": {
             "username": "participant1",
-            "first_name": "Kenny",
-            "last_name": "Meyer",
+            "first_name": "Juan",
+            "last_name": "Perez",
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
@@ -63,6 +70,41 @@
         }
     },
     {
+        "pk": 4,
+        "model": "auth.user",
+        "fields": {
+            "username": "test_organizer",
+            "first_name": "First",
+            "last_name": "Last",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2011-05-06 11:05:41",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$0acb8$aca274fa46116f8aa0e264eb2a01b19f7ff65ca1",
+            "email": "",
+            "date_joined": "2011-05-06 11:05:41"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "auth.user",
+        "fields": {
+            "username": "participant2",
+            "first_name": "Juan",
+            "last_name": "Gabriel",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2011-04-17 10:54:05",
+            "user_permissions": [],
+            "password": "sha1$0acb8$aca274fa46116f8aa0e264eb2a01b19f7ff65ca1",
+            "email": "",
+            "date_joined": "2011-04-17 10:47:35"
+        }
+    },
+    {
         "pk": 2,
         "model": "competition.participant",
         "fields": {
@@ -81,14 +123,30 @@
         }
     },
     {
+        "pk": 4,
+        "model": "competition.organizer",
+        "fields": {
+            "user_permissions": [],
+            "groups": [],
+            "competition": 1
+        }
+    },
+    {
+        "pk": 5,
+        "model": "competition.participant",
+        "fields": {
+            "competition": 1,
+            "team": 2,
+            "score": 0
+        }
+    },
+    {
         "pk": 1,
         "model": "competition.problem",
         "fields": {
-            "description": "Return the numbers from 1 to 10 line by line, using a for loop.",
-            "title": "Numbers 1 to 10",
+            "description": "Retornar los numeros del 1 al 10 en un bucle for.",
+            "title": "Numeros del 1 al 10",
             "time_limit": 20,
-            "sample_input": "",
-            "sample_output": "",
             "creation_time": "2011-04-24 13:31:28",
             "sample_program": "",
             "competition": [
@@ -102,10 +160,8 @@
         "pk": 2,
         "model": "competition.problem",
         "fields": {
-            "sample_output": "",
             "description": "Escribir un programa que permita ingresar dos n\u00fameros. Imprimir por pantalla alternadamente la tabla de multiplicar de cada uno (hasta 10).\r\n",
             "title": "Tabla de multiplicaci\u00f3n alternada",
-            "sample_input": "",
             "creation_time": "2011-04-24 14:33:38",
             "sample_program": "",
             "competition": [
