@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Index{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Index" %}{% endblock %}
 
 {% block header %}
     {% include "competition/main_menu.html" %}
@@ -21,7 +23,7 @@
 
     {# There will be only a competition list object if there is no user authenticated. #}
     {% if competitions %}
-    <h1>Active competitions:</h1>
+    <h1>{% trans "Active competitions" %}</h1>
     <ul>
         {% for competition in competitions %}
         <li>

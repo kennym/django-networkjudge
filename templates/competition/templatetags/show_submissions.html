@@ -1,21 +1,25 @@
+{% load i18n %}
+
 {% if submissions %}
 <table class="list">
-    <caption>Submissions</caption>
+    <caption>
+        {% trans "Submissions" %}
+    </caption>
     <thead>
         <th>
-            Time
+            {% trans "Time" %}
         </th>
         <th>
-            Problem
+            {% trans "Problem" %}
         </th>
         <th>
-            Language
+            {% trans "Language" %}
         </th>
         <th>
-            Result
+            {% trans "Result" %}
         </th>
         <th>
-            Verified
+            {% trans "Verified" %}
         </th>
     </thead>
     <tbody>
@@ -55,5 +59,5 @@
     </tbody>
 </table>
 {% else %}
-<p>No submissions</p>
+<p>{% trans "No submissions" %}</p>
 {% endif %}

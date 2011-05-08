@@ -1,0 +1,185 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2011
+# This file is distributed under the same license as the PACKAGE package.
+# Kenny Meyer <knny.myer@gmail.com>, 2011.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-08 17:28-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: competition/models.py:145
+#: templates/competition/participant/scoreboard.html:16
+#: templates/competition/templatetags/show_overview.html:12
+msgid "Score"
+msgstr "Puntaje"
+
+#: competition/models.py:181
+#: templates/competition/templatetags/show_problems.html:11
+msgid "Title"
+msgstr "Título"
+
+#: competition/models.py:182
+msgid "Description"
+msgstr "Descripción"
+
+#: competition/models.py:183
+msgid "Time limit"
+msgstr "Límite de tiempo"
+
+#: competition/models.py:184
+msgid "Time limit in seconds"
+msgstr "Límite de tiempo en segundos"
+
+#: competition/models.py:186
+msgid "Input"
+msgstr "Entrada"
+
+#: competition/models.py:187 competition/models.py:234
+msgid "Output"
+msgstr "Salida"
+
+#: competition/models.py:189
+msgid "Sample Program"
+msgstr "Programa Ejemplar"
+
+#: competition/models.py:191
+msgid "Creation Time"
+msgstr "Fecha de creación"
+
+#: competition/models.py:202
+msgid "Name"
+msgstr "Nombre"
+
+#: competition/models.py:203
+msgid "Compiler"
+msgstr "Compilador"
+
+#: competition/models.py:220
+msgid "Pending"
+msgstr "Pendiente"
+
+#: competition/models.py:221
+msgid "Correct"
+msgstr "Correcto"
+
+#: competition/models.py:222
+msgid "Too late"
+msgstr "Demasiado Tarde"
+
+#: competition/models.py:223
+msgid "Compile Error"
+msgstr "Error de compilación"
+
+#: competition/models.py:224
+msgid "Time limit exceeded"
+msgstr "Límite de tiempo sobrepasado"
+
+#: competition/models.py:225
+msgid "No Output"
+msgstr "Ninguna Salida"
+
+#: competition/models.py:226
+msgid "Wrong answer"
+msgstr "Resultado incorrecto"
+
+#: competition/models.py:227
+msgid "Invalid submission"
+msgstr "Submisión inválida"
+
+#: competition/models.py:231
+msgid "Source code"
+msgstr "Código Fuente"
+
+#: competition/models.py:232
+msgid "Programming language"
+msgstr "Lenguaje de Programación"
+
+#: competition/models.py:233
+#: templates/competition/templatetags/show_submissions.html:19
+msgid "Result"
+msgstr "Resultado"
+
+#: competition/models.py:235
+msgid "Error message"
+msgstr "Mensaje de error"
+
+#: competition/models.py:237
+#: templates/competition/templatetags/show_submissions.html:22
+msgid "Verified"
+msgstr "Verificado"
+
+#: competition/models.py:238
+msgid "Ignored"
+msgstr "Ignorado"
+
+#: competition/models.py:239
+msgid "Claimed by"
+msgstr ""
+
+#: competition/models.py:241
+msgid "Submit time"
+msgstr "Tiempo de envío"
+
+#: templates/competition/login.html:7
+msgid "User login"
+msgstr ""
+
+#: templates/competition/login.html:8
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: templates/competition/login.html:14
+msgid "Password"
+msgstr "Contraseña"
+
+#: templates/competition/login.html:24
+msgid "Login"
+msgstr "Acceder"
+
+#: templates/competition/participant/scoreboard.html:3
+msgid "Rankings"
+msgstr "Clasificación"
+
+#: templates/competition/participant/scoreboard.html:13
+msgid "Participant"
+msgstr "Participante"
+
+#: templates/competition/templatetags/show_overview.html:9
+msgid "Team"
+msgstr "Equipo"
+
+#: templates/competition/templatetags/show_problems.html:4
+msgid "Problems"
+msgstr "Problemas"
+
+#: templates/competition/templatetags/show_problems.html:12
+#: templates/competition/templatetags/show_submissions.html:6
+msgid "Submissions"
+msgstr "Sumisión"
+
+#: templates/competition/templatetags/show_submissions.html:10
+msgid "Time"
+msgstr "Tiempo"
+
+#: templates/competition/templatetags/show_submissions.html:13
+msgid "Problem"
+msgstr "Problema"
+
+#: templates/competition/templatetags/show_submissions.html:16
+msgid "Language"
+msgstr "Lenguaje"
+
+#: templates/competition/templatetags/show_submissions.html:62
+msgid "No submissions"
+msgstr "Ningunas sumisiones"

@@ -1,3 +1,4 @@
+{% load i18n %}
 <table width="100%" id="participant-overview">
     <thead>
         <tr>
@@ -5,10 +6,10 @@
                 #
             </th>
             <th>
-                Team
+                {% trans "Team" %}
             </th>
             <th>
-                Score
+                {% trans "Score" %}
             </th>
             {% for problem in problems %}
                 <th>{{ forloop.counter }}</th>

@@ -1,5 +1,7 @@
 {% extends "competition/index.html" %}
-{% block title %}Rankings{% endblock %}
+
+{% load i18n %}
+{% block title %}{% trans "Rankings" %}{% endblock %}
 
 {% block main-content %}
     <table class="list" width="100%">
@@ -9,10 +11,10 @@
                     #
                 </th>
                 <th>
-                    Participant
+                    {% trans "Participant" %}
                 </th>
                 <th>
-                    Score
+                    {% trans "Score" %}
                 </th>
             </tr>
         </thead>
