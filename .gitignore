@@ -1,5 +1,6 @@
 .idea/
+*.mo
 *.pyc
 *.db
 media/solutions
-docs/build
+docs/_build

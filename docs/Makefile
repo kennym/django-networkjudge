@@ -5,12 +5,12 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = build
+BUILDDIR      = _build
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest
 
@@ -72,17 +72,17 @@ qthelp:
 	@echo
 	@echo "Build finished; now you can run "qcollectiongenerator" with the" \
 	      ".qhcp project file in $(BUILDDIR)/qthelp, like this:"
-	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/CompetitionManager.qhcp"
+	@echo "# qcollectiongenerator $(BUILDDIR)/qthelp/NetworkJudge.qhcp"
 	@echo "To view the help file:"
-	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/CompetitionManager.qhc"
+	@echo "# assistant -collectionFile $(BUILDDIR)/qthelp/NetworkJudge.qhc"
 
 devhelp:
 	$(SPHINXBUILD) -b devhelp $(ALLSPHINXOPTS) $(BUILDDIR)/devhelp
 	@echo
 	@echo "Build finished."
 	@echo "To view the help file:"
-	@echo "# mkdir -p $$HOME/.local/share/devhelp/CompetitionManager"
-	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/CompetitionManager"
+	@echo "# mkdir -p $$HOME/.local/share/devhelp/NetworkJudge"
+	@echo "# ln -s $(BUILDDIR)/devhelp $$HOME/.local/share/devhelp/NetworkJudge"
 	@echo "# devhelp"
 
 epub:
