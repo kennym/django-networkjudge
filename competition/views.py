@@ -268,7 +268,7 @@ def judge_ignore_submission(request, submission_id):
 
 @login_required
 def judge_scoreboard(request):
-    participants = Participant.objects.all().order_by('score')
+    participants = Participant.objects.all().order_by('-score')
 
     context = {
         "participants": participants
