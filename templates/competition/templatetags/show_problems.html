@@ -1,0 +1,45 @@
+<table id="participant-problems" class="list">
+    <caption>
+        Problems
+    </caption>
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>Title</th>
+            <th>Submissions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for problem in problems %}
+        {% if problem.submission.solved %}
+        <tr class="solved">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td>
+                <a href="{{ problem.problem.get_absolute_url }}">
+                    {{ problem.problem.id }}
+                </a>
+            </td>
+            <td>
+                <a href="{{ problem.problem.get_absolute_url }}">
+                    {{ problem.problem.title }}
+                </a>
+            </td>
+        {% if problem.submission.solved %}
+            <td>
+                <a href="{{ problem.problem.get_absolute_url }}">
+                    {{ problem.submission.result }}
+                </a>
+            </td>
+        {% else %}
+            <td>
+                {{ problem.submissions }}
+            </td>
+        {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

@@ -16,7 +16,6 @@ Participants
     #. Submit source code solution for problem
 
         #. Method: Browser
-        #. Type: Java, Python
         #. Coding: Use their favorite text editor, offline
 
     #. Compile code

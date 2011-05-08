@@ -1,7 +1,10 @@
 {% load participant_list %}
+{% load competition_cp %}
 
 {% if user.organizer.competition.status == 0 %}
     <h2>Start competition</h2>
+
+    {% competition_cp user.organizer %}
 {% endif %}
 
 {% participant_list user.organizer %}

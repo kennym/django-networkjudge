@@ -2,23 +2,21 @@
 <table class="list">
     <caption>Submissions</caption>
     <thead>
-        <tr>
-            <td>
-                Time
-            </td>
-            <td>
-                Problem
-            </td>
-            <td>
-                Language
-            </td>
-            <td>
-                Result
-            </td>
-            <td>
-                Verified
-            </td>
-        </tr>
+        <th>
+            Time
+        </th>
+        <th>
+            Problem
+        </th>
+        <th>
+            Language
+        </th>
+        <th>
+            Result
+        </th>
+        <th>
+            Verified
+        </th>
     </thead>
     <tbody>
     {% for submission in submissions %}
@@ -28,19 +26,29 @@
         <tr>
         {% endif %}
             <td>
+                <a href="{{ submission.get_absolute_url }}">
                 {{ submission.submit_time|time:"H:i" }}
+                </a>
             </td>
             <td>
+                <a href="{{ submission.get_absolute_url }}">
                 {{ submission.problem }}
+                </a>
             </td>
             <td>
+                <a href="{{ submission.get_absolute_url }}">
                 {{ submission.get_language_display }}
+                </a>
             </td>
             <td>
+                <a href="{{ submission.get_absolute_url }}">
                 {{ submission.get_result_display }}
+                </a>
             </td>
             <td>
+                <a href="{{ submission.get_absolute_url }}">
                 {{ submission.verified }}
+                </a>
             </td>
         </tr>
     {% endfor %}

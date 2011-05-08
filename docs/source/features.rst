@@ -74,9 +74,6 @@ The judge is able to view a list of submitted solutions which are correct with
 the corresponding problem. He is able to evaluate, or re-evaluate (if already
 judged), the solution.
 
-Submissions that require evaluation will always be highlighted and stay on the
-top of the list, while the remaining ones stay in their submission order.
-
 ^^^^^^^^^^^^^^^^
 Evaluation logic
 ^^^^^^^^^^^^^^^^

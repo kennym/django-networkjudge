@@ -122,9 +122,7 @@ def upload_submission(request, problem_id):
             submission.problem = problem
             submission.save()
             submission.compile_and_run()
-            return render_to_response("competition/submission/submit.html",
-                                      {'submission': submission},
-                                      context_instance=RequestContext(request))
+            return redirect(index)
         return render_to_response("competition/submission/submit.html",
                                   {
                                       'form': form,

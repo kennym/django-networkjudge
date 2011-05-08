@@ -1,8 +1,14 @@
 from django import forms
 
 from competition.models import (
-    Submission
+    Submission,
+    Competition
 )
+
+class StartCompetitionForm(forms.ModelForm):
+    class Meta:
+        model = Competition
+        fields = ('duration',)
 
 class UploadSubmissionForm(forms.ModelForm):
     class Meta:

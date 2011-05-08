@@ -7,11 +7,6 @@
             {% if user.is_authenticated %}
                 {% if user.participant %}
                     <li>
-                        <a href="{{ user.participant.competition.problems }}">
-                            Problems
-                        </a>
-                    </li>
-                    <li>
                         <a href="{% url participant-scoreboard %}">
                             Scoreboard
                         </a>

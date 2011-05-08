@@ -21,13 +21,10 @@ There the jury system compiles and runs the program and compares the program
 output with the expected output.
 
 This software can be used to handle the submission and judging during such
-contests.
-
-It also handles feedback to the participants and communication on problems
-(clarification requests).
+competitions.
 
 It has web interfaces for the jury, the participants (their submissions and
-clarification requests) and the public (scoreboard).
+clarification requests) and the public scoreboard.
 
 --------
 Features

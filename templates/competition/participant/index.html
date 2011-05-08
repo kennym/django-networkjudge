@@ -1,9 +1,15 @@
 {% load show_submissions %}
+{% load show_problems %}
 {% load show_overview %}
 
 <div>
     {% show_overview user.participant %}
 </div>
+
+<div>
+    {% show_problems user.participant %}
+</div>
+
 <div>
     {% show_submissions user.participant %}
 </div>

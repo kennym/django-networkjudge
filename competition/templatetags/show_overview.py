@@ -19,17 +19,21 @@ def show_overview(participant):
     # Create a new list with dictionaries for each problem which looks like this:
     # problems = [{
     #   "solved": True,
-    #   "submissions": int()}
+    #   "submissions": int()
+    #   "problem": Problem
     #
     problem_meta = []
     for problem in problems:
         new_dict = {"solved": False,
-                "submissions": 0}
+                    "submissions": 0,
+                    "problem": None}
         for submission in problem.submission_set.filter(participant=participant):
             # Add a submission
             new_dict["submissions"] += 1
             if submission.result_correct():
                 new_dict["solved"] = True
+            # Add problem to dict
+            new_dict["problem"] = problem
         problem_meta.append(new_dict)
 
     context = {

@@ -10,7 +10,7 @@ def show_submissions(participant):
 
     @param participant Instance of :model:`competition.Participant`
     """
-    submissions = Submission.objects.filter(participant=participant)
+    submissions = Submission.objects.filter(participant=participant).order_by('-submit_time')
 
     return {"submissions": submissions}
 

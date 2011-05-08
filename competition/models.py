@@ -11,6 +11,7 @@ from com_judge import ComJudge
 from utils import are_equal
 
 
+## TODO: Deprecated by ProgrammingLanguage class
 PROGRAMMING_LANGUAGES = (
     ('python', "Python 2.6"),
     ('pascal', "Pascal"),
@@ -195,6 +196,14 @@ class Problem(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class ProgrammingLanguage(models.Model):
+    name = models.CharField(_("Name"), max_length=30)
+    compiler = models.CharField(_("Compiler"), max_length=20)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Submission(models.Model):
