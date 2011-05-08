@@ -100,9 +100,15 @@ def competition_ranking(request, competition_id):
 @login_required
 def problem_detail(request, id):
     problem = get_object_or_404(Problem, pk=id)
+
     context = {
         "problem": problem
     }
+
+    if request.user.participant:
+        submissions = Submission.objects.filter(participant=request.user.participant, problem=problem)
+        context["submissions"] = submissions
+
     return render_to_response("competition/problem/detail.html",
                               context,
                               context_instance=RequestContext(request))
@@ -132,13 +138,11 @@ def upload_submission(request, problem_id):
     else:
         problem = get_object_or_404(Problem, pk=problem_id)
         participant = get_object_or_404(Participant, pk=request.user.id)
-        submissions = Submission.objects.filter(participant=participant, problem=problem)
 
         context = {
             "form": UploadSubmissionForm(),
             "competition": get_object_or_404(Competition, pk=participant.competition.id),
             "problem": problem,
-            "submissions": submissions
         }
         return render_to_response("competition/submission/submit.html",
                                   context,

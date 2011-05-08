@@ -60,27 +60,4 @@
         </form>
     {% endif %}
 
-    {% if submissions %}
-        <table width="100%" class="list">
-            <caption>Your submissions</caption>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {% for submission in submissions %}
-                    <td>
-                        {{ submission.id }}
-                    </td>
-                    <td>
-                        {{ submission.get_result_display }}
-                    </td>
-                </tr>
-            </tbody>
-        {% endfor %}
-        </table>
-    {% endif %}
 {% endblock %}
