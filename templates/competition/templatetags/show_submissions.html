@@ -1,7 +1,6 @@
 {% load i18n %}
 
-{% if submissions %}
-<table class="list">
+<table width="100%" class="list">
     <caption>
         {% trans "Submissions" %}
     </caption>
@@ -9,6 +8,11 @@
         <th>
             {% trans "Time" %}
         </th>
+        {% if user.judge %}
+            <th>
+                {% trans "Participant" %}
+            </th>
+        {% endif %}
         <th>
             {% trans "Problem" %}
         </th>
@@ -23,6 +27,14 @@
         </th>
     </thead>
     <tbody>
+    {% if not submissions %}
+        <tr>
+            <td colspan="5">
+                {% trans "There are no submissions, yet" %}
+            </td>
+        </tr>
+    {% endif %}
+
     {% for submission in submissions %}
         {% if forloop.counter|divisibleby:"2" %}
         <tr class="roweven">
@@ -34,6 +46,13 @@
                 {{ submission.submit_time|time:"H:i" }}
                 </a>
             </td>
+            {% if user.judge %}
+                <td>
+                    <a href="{{ submission.get_absolute_url }}">
+                        {{ submission.participant }}
+                    </a>
+                </td>
+            {% endif %}
             <td>
                 <a href="{{ submission.get_absolute_url }}">
                 {{ submission.problem }}
@@ -58,6 +77,3 @@
     {% endfor %}
     </tbody>
 </table>
-{% else %}
-<p>{% trans "No submissions" %}</p>
-{% endif %}

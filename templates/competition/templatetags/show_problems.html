@@ -1,5 +1,5 @@
 {% load i18n %}
-<table id="participant-problems" class="list">
+<table width="100%" id="participant-problems" class="list">
     <caption>
         {% trans "Problems" %}
     </caption>
@@ -37,7 +37,9 @@
             </td>
         {% else %}
             <td>
-                {{ problem.submissions }}
+                <a href="{{ problem.problem.get_absolute_url }}">
+                    {{ problem.submissions }}
+                </a>
             </td>
         {% endif %}
         </tr>

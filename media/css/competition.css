@@ -13,6 +13,11 @@
 
 /* Table styles */
 
+table caption {
+    font-size: 20px;
+    border: 1px solid black;
+}
+
 .list {
     border-collapse: collapse;
     border-spacing: 0px;

@@ -19,6 +19,11 @@ class ComJudge:
 
     Currently supported languages for the source code:
      - Python
+     - Pascal
+
+    Programming languages which will be supported in the future:
+     - Java
+     - C/C++
 
     Return codes for Python interpreter:
      0 - Everything went fine
@@ -64,15 +69,20 @@ class ComJudge:
         cmd = ""
         if self.compiler == "python":
             cmd = self.compiler + " " + self.temp_name
+        if self.compiler == "pascal":
+            cmd = self.compiler + " " + self.temp_name
         return cmd
 
     def _create_temp_name(self):
         """
-        Create a temporary file, write the source code to it, and save the file name.
+        Create a temporary file, write the source code to it, and save
+        the file name.
         """
         temp_name = None
         if self.compiler == "python":
             temp_name = tempfile.mktemp(".py", dir=SOURCE_ROOT)
+        if self.compiler == "pascal":
+            temp_name = tempfile.mktemp(".pascal", dir=SOURCE_ROOT)
         temp = open(temp_name, 'w')
         temp.write(self.source_code)
         temp.close()
